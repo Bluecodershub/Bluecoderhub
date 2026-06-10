@@ -3,10 +3,10 @@
         "id": "bluelearnerhub",
         "name": "Bluelearnerhub",
         "tagline": "Adaptive Learning Platform",
-        "description": "An intelligent learning platform that personalizes education through structured learning paths, gamified experiences, and real-time progress tracking. Empowering learners worldwide.",
+        "description": "An intelligent learning platform that personalizes education through structured learning paths, gamified experiences, and real-time progress tracking.",
         "status": "live",
         "url": "https://bluelearnerhub.com",
-        "icon": "🎓",
+        "icon": "school",
         "color": "#ffffff",
         "features": [
             "Adaptive Learning Paths",
@@ -16,11 +16,26 @@
             "Real-time Progress Analytics",
             "Certificate Generation"
         ],
-        "stats": {
-            "users": "10,000+",
-            "courses": "500+",
-            "completion": "94%"
-        },
         "category": "EdTech"
+    },
+    {
+        "id": "financehub",
+        "name": "FinanceHub",
+        "tagline": "Smart Financial Management Platform",
+        "description": "A financial management platform currently in the prototype phase. We are focused on building a robust core architecture before unveiling its full capabilities.",
+        "status": "coming-soon",
+        "icon": "finance",
+        "color": "#ffffff",
+        "category": "FinTech"
+    },
+    {
+        "id": "cad-copilot",
+        "name": "AI CAD Copilot",
+        "tagline": "AI Assistant for Engineering Design",
+        "description": "An AI copilot for CAD that turns natural-language intent into parametric geometry, sketch suggestions, and design-rule checks — built to sit alongside the modeling tools engineers already use.",
+        "status": "coming-soon",
+        "icon": "cad",
+        "color": "#ffffff",
+        "category": "Engineering"
     }
 ]
