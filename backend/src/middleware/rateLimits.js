@@ -1,21 +1,16 @@
 import rateLimit from 'express-rate-limit';
 
-function getClientIp(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  if (forwarded) {
-    return forwarded.split(',')[0].trim();
-  }
-  return req.ip || req.socket?.remoteAddress || 'unknown';
-}
+// NOTE: counters are in-memory and per-instance. On serverless (Vercel) each
+// instance counts independently and resets on cold start, so these limits are
+// best-effort there; use a shared store if strict enforcement is needed.
 
 export const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 300,
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: getClientIp,
   skip: (req) => {
-    return req.path === '/api/health';
+    return req.path === '/health';
   }
 });
 
@@ -24,8 +19,7 @@ export const authLimiter = rateLimit({
   limit: 10,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many authentication attempts', code: 'rate_limited' },
-  keyGenerator: getClientIp
+  message: { error: 'Too many authentication attempts', code: 'rate_limited' }
 });
 
 export const writeLimiter = rateLimit({
@@ -33,8 +27,7 @@ export const writeLimiter = rateLimit({
   limit: 20,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many write requests', code: 'rate_limited' },
-  keyGenerator: getClientIp
+  message: { error: 'Too many write requests', code: 'rate_limited' }
 });
 
 export const strictLimiter = rateLimit({
@@ -42,6 +35,5 @@ export const strictLimiter = rateLimit({
   limit: 5,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many requests', code: 'rate_limited' },
-  keyGenerator: getClientIp
+  message: { error: 'Too many requests', code: 'rate_limited' }
 });

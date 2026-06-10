@@ -101,7 +101,7 @@ router.post('/', authenticate, requireRole('admin'), writeLimiter, validate(blog
 
     const result = await query(
       `INSERT INTO blog_posts (slug, title, category, author, excerpt, content, tags, published, created_by)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING id, slug, title, category, author, excerpt, content, tags, published, created_at, updated_at`,
       [slug, data.title, data.category, data.author, data.excerpt, data.content, data.tags, data.published, req.user.id]
     );
@@ -116,6 +116,7 @@ router.put('/:id', authenticate, requireRole('admin'), writeLimiter, validate(bl
   try {
     const data = req.validated.body;
     const slug = slugify(data.slug || data.title);
+    if (!slug) throw new HttpError(400, 'A valid slug is required', 'validation_error');
     const validatedId = validateIdParam(req.params.id);
     const result = await query(
       `UPDATE blog_posts

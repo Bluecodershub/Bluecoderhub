@@ -27,6 +27,8 @@ export default function Careers() {
         coverLetter: ''
     });
     const [submitState, setSubmitState] = useState({ loading: false, message: '', error: '' });
+    const [fit, setFit] = useState(null);
+    const [fitState, setFitState] = useState({ loading: false, error: '' });
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -51,6 +53,17 @@ export default function Careers() {
             setSubmitState({ loading: false, message: 'Application submitted.', error: '' });
         } catch (err) {
             setSubmitState({ loading: false, message: '', error: err.message || 'Submission failed.' });
+        }
+    };
+
+    const previewFit = async () => {
+        setFitState({ loading: true, error: '' });
+        try {
+            const data = await api.analyzeCareerFit(form);
+            setFit(data.result);
+            setFitState({ loading: false, error: '' });
+        } catch (err) {
+            setFitState({ loading: false, error: err.message || 'Fit analysis failed.' });
         }
     };
 
@@ -156,7 +169,7 @@ export default function Careers() {
                         <p className="text-gray-400">Applications are stored securely on the server and reviewed by admins.</p>
                     </div>
                 </FadeInSection>
-                <form onSubmit={handleApplication} className="glassmorphism rounded-2xl border border-white/10 p-6 space-y-4">
+                <form onSubmit={handleApplication} noValidate aria-label="Job Application Form" className="glassmorphism rounded-2xl border border-white/10 p-6 space-y-4">
                     <div className="grid md:grid-cols-2 gap-4">
                         <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Full name" required className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm" />
                         <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="Email" required className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm" />
@@ -169,9 +182,25 @@ export default function Careers() {
                     <textarea value={form.coverLetter} onChange={(e) => setForm({ ...form, coverLetter: e.target.value })} placeholder="Tell us why this role fits you" rows={5} required className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm" />
                     {submitState.error && <p className="text-sm text-red-400">{submitState.error}</p>}
                     {submitState.message && <p className="text-sm text-green-400">{submitState.message}</p>}
-                    <button disabled={submitState.loading} className="px-6 py-3 rounded-xl text-sm font-bold text-black bg-white disabled:opacity-50">
-                        {submitState.loading ? 'Submitting...' : 'Submit Application'}
-                    </button>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                        <button disabled={submitState.loading} className="px-6 py-3 rounded-xl text-sm font-bold text-black bg-white disabled:opacity-50">
+                            {submitState.loading ? 'Submitting...' : 'Submit Application'}
+                        </button>
+                        <button type="button" onClick={previewFit} disabled={fitState.loading} className="px-6 py-3 rounded-xl text-sm font-bold text-white border border-white/10 disabled:opacity-50">
+                            {fitState.loading ? 'Analyzing...' : 'Preview AI Fit'}
+                        </button>
+                    </div>
+                    {fitState.error && <p className="text-sm text-red-400">{fitState.error}</p>}
+                    {fit && (
+                        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                            <div className="flex items-center justify-between gap-3 mb-3">
+                                <div className="text-white font-bold">Fit Score: {fit.fitScore}/100</div>
+                                <div className="text-xs text-gray-500">{fit.model}</div>
+                            </div>
+                            <p className="text-sm text-gray-400 mb-2">Primary track: {fit.primaryTrack}</p>
+                            <p className="text-sm text-gray-400">Recommendation: {fit.recommendation.replaceAll('_', ' ')}</p>
+                        </div>
+                    )}
                 </form>
             </section>
 

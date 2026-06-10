@@ -41,10 +41,11 @@ export function sanitizeInput(value, maxLength = MAX_SHORT_LENGTH) {
     const stripped = str
         // Remove HTML/XML tags (including their attributes and event handlers)
         .replace(/<[^>]*>/g, '')
-        // Remove dangerous URL protocols (case-insensitive, handles spaces/newlines in protocol)
-        .replace(/j[\s\S]*a[\s\S]*v[\s\S]*a[\s\S]*s[\s\S]*c[\s\S]*r[\s\S]*i[\s\S]*p[\s\S]*t[\s\S]*:/gi, '')
-        .replace(/v[\s\S]*b[\s\S]*s[\s\S]*c[\s\S]*r[\s\S]*i[\s\S]*p[\s\S]*t[\s\S]*:/gi, '')
-        .replace(/data:/gi, '')
+        // Remove dangerous URL protocols. Whitespace between letters is allowed
+        // (browsers tolerate "java\nscript:") but unbounded gaps are not, so
+        // ordinary prose mentioning "JavaScript" plus a later colon stays intact.
+        .replace(/j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:/gi, '')
+        .replace(/v\s*b\s*s\s*c\s*r\s*i\s*p\s*t\s*:/gi, '')
         // Remove standalone event handler patterns (outside of tags)
         .replace(/on\w+\s*=/gi, '')
         // Remove CSS expression() attacks

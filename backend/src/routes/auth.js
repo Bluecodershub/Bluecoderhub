@@ -10,12 +10,20 @@ import { env } from '../config/env.js';
 
 const router = Router();
 
-const DUMMY_HASH = '$2a$10$abcdefghijklmnopqrstuvwxyz12345678901234567890123456';
+// Real hash so bcrypt.compare does full work for unknown emails (timing equalization).
+const DUMMY_HASH = bcrypt.hashSync('timing-equalization-placeholder', 10);
 
 const loginSchema = z.object({
   email: z.string().email().max(254).transform((v) => v.toLowerCase()),
   password: z.string().min(1).max(256)
 });
+
+function jwtExpiryMs() {
+  const match = /^(\d+)([smhd])$/.exec(env.jwtExpiresIn);
+  if (!match) return 2 * 60 * 60 * 1000;
+  const units = { s: 1000, m: 60_000, h: 3_600_000, d: 86_400_000 };
+  return Number(match[1]) * units[match[2]];
+}
 
 function createCookieOptions() {
   const isProduction = env.nodeEnv === 'production';
@@ -23,7 +31,7 @@ function createCookieOptions() {
     httpOnly: true,
     secure: isProduction,
     sameSite: 'strict',
-    maxAge: 2 * 60 * 60 * 1000,
+    maxAge: jwtExpiryMs(),
     path: '/'
   };
 }
@@ -45,10 +53,9 @@ router.post('/login', authLimiter, validate(loginSchema), async (req, res, next)
     }
 
     const token = signToken(user);
-    
+
     res.cookie('auth_token', token, createCookieOptions());
     res.json({
-      token,
       user: { id: user.id, email: user.email, role: user.role }
     });
   } catch (err) {

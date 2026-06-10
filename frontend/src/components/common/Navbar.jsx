@@ -6,6 +6,7 @@ import Logo from './Logo';
 
 const navLinks = [
     { label: 'Home', path: '/' },
+    { label: 'Products', path: '/products' },
     { label: 'About', path: '/about' },
     { label: 'Careers', path: '/careers' },
     { label: 'Blog', path: '/blog' },

@@ -40,15 +40,11 @@ export async function authenticate(req, _res, next) {
     req.user = result.rows[0];
     next();
   } catch (err) {
-    if (err instanceof HttpError) {
-      next(err);
-      return;
-    }
-    if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+    if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError' || err.name === 'NotBeforeError') {
       next(new HttpError(401, 'Invalid or expired token', 'invalid_token'));
       return;
     }
-    next(new HttpError(401, 'Authentication failed', 'auth_failed'));
+    next(err);
   }
 }
 

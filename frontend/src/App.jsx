@@ -9,9 +9,11 @@ import { ROUTES } from './config/routes';
 import { PAGE_TRANSITION } from './config/constants';
 
 const About = lazy(() => import('./pages/About'));
+const Products = lazy(() => import('./pages/Products'));
 const Careers = lazy(() => import('./pages/Careers'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogPost = lazy(() => import('./pages/Blog').then(m => ({ default: m.BlogPost })));
+const Admin = lazy(() => import('./pages/Admin'));
 
 function LoadingFallback() {
     return (
@@ -69,10 +71,12 @@ function AppRoutes() {
                 <Suspense fallback={<LoadingFallback />}>
                     <Routes location={location} key={location.pathname}>
                         <Route path={ROUTES.HOME} element={<PageWrapper><Home /></PageWrapper>} />
+                        <Route path={ROUTES.PRODUCTS} element={<PageWrapper><Products /></PageWrapper>} />
                         <Route path={ROUTES.ABOUT} element={<PageWrapper><About /></PageWrapper>} />
                         <Route path={ROUTES.CAREERS} element={<PageWrapper><Careers /></PageWrapper>} />
                         <Route path={ROUTES.BLOG} element={<PageWrapper><Blog /></PageWrapper>} />
                         <Route path={ROUTES.BLOG_POST} element={<PageWrapper><BlogPost /></PageWrapper>} />
+                        <Route path={ROUTES.ADMIN} element={<PageWrapper><Admin /></PageWrapper>} />
                         <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
                     </Routes>
                 </Suspense>

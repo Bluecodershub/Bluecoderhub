@@ -1,27 +1,13 @@
-const TOKEN_KEY = 'bluecoderhub_auth_token';
-
-export function getAuthToken() {
-  return sessionStorage.getItem(TOKEN_KEY);
-}
-
-export function setAuthToken(token) {
-  sessionStorage.setItem(TOKEN_KEY, token);
-}
-
-export function clearAuthToken() {
-  sessionStorage.removeItem(TOKEN_KEY);
-}
-
+// Auth uses an httpOnly cookie set by the server; the token is never
+// exposed to JavaScript, so there is nothing to store client-side.
 async function request(path, options = {}) {
   const headers = {
     'Content-Type': 'application/json',
     ...(options.headers || {})
   };
-  const token = getAuthToken();
-  if (token) headers.Authorization = `Bearer ${token}`;
 
-  const response = await fetch(path, { 
-    ...options, 
+  const response = await fetch(path, {
+    ...options,
     headers,
     credentials: 'include'
   });
@@ -29,7 +15,6 @@ async function request(path, options = {}) {
 
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    if (response.status === 401) clearAuthToken();
     const error = new Error(data.error || 'Request failed');
     error.status = response.status;
     error.code = data.code;
@@ -75,5 +60,26 @@ export const api = {
   listSubscribers: () => request('/api/subscribers'),
   deleteSubscriber: (id) => request(`/api/subscribers/${encodeURIComponent(id)}`, {
     method: 'DELETE'
+  }),
+  listAiModels: () => request('/api/ai/models'),
+  recommendLearningPath: (payload) => request('/api/ai/learning-path', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  }),
+  askSupportAi: (question) => request('/api/ai/support', {
+    method: 'POST',
+    body: JSON.stringify({ question })
+  }),
+  analyzeCareerFit: (payload) => request('/api/ai/career-fit', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  }),
+  generateBlogDraft: (payload) => request('/api/ai/blog-draft', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  }),
+  summarizeApplication: (payload) => request('/api/ai/application-summary', {
+    method: 'POST',
+    body: JSON.stringify(payload)
   })
 };

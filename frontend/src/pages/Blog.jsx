@@ -3,7 +3,6 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import FadeInSection from '../components/animations/FadeInSection';
 import { api } from '../utils/api';
-import { sanitizeBlogContent } from '../utils/sanitize';
 import blogData from '../data/blog.json';
 
 function formatDate(value) {
@@ -125,7 +124,7 @@ export function BlogPost() {
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center bg-black">
-            <div className="w-12 h-12 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+            <div role="progressbar" className="w-12 h-12 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
         </div>
     );
 
@@ -223,16 +222,15 @@ export default function Blog() {
 
     useEffect(() => {
         setLoading(true);
-        // Try API first
+        setError('');
         api.listBlogs()
             .then((data) => {
-                if (data.blogs && data.blogs.length > 0) {
+                if (data.blogs) {
                     setPosts(data.blogs);
-                } else {
-                    setPosts(blogData);
                 }
             })
-            .catch(() => {
+            .catch((err) => {
+                console.warn('Blog API unavailable, using sample data:', err);
                 setPosts(blogData);
             })
             .finally(() => setLoading(false));
@@ -265,7 +263,7 @@ export default function Blog() {
 
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <div className="w-10 h-10 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+                        <div role="progressbar" className="w-10 h-10 border-2 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
                     </div>
                 ) : (
                     <div className="space-y-16 lg:space-y-32">

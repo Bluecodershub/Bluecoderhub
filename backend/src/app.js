@@ -5,7 +5,6 @@ import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
 import { env } from './config/env.js';
 import { generalLimiter } from './middleware/rateLimits.js';
 import { requestId, requestLogger } from './middleware/requestId.js';
@@ -15,6 +14,7 @@ import authRoutes from './routes/auth.js';
 import blogRoutes from './routes/blogs.js';
 import applicationRoutes from './routes/applications.js';
 import subscriberRoutes from './routes/subscribers.js';
+import aiRoutes from './routes/ai.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const frontendDist = path.resolve(__dirname, '../../frontend/dist');
@@ -47,7 +47,7 @@ export function createApp({ serveFrontend = false } = {}) {
     crossOriginEmbedderPolicy: false,
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     hsts: {
-      maxAge: 31536000,
+      maxAge: 63072000,
       includeSubDomains: true,
       preload: true
     }
@@ -55,11 +55,7 @@ export function createApp({ serveFrontend = false } = {}) {
 
   app.use(cors({
     origin(origin, callback) {
-      if (!origin || env.allowedOrigins.includes(origin)) {
-        callback(null, true);
-        return;
-      }
-      callback(new Error('CORS origin denied'));
+      callback(null, !origin || env.allowedOrigins.includes(origin));
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -68,7 +64,6 @@ export function createApp({ serveFrontend = false } = {}) {
   app.use(compression());
   app.use(cookieParser());
   app.use(express.json({ limit: '128kb' }));
-  app.use(morgan(env.nodeEnv === 'production' ? 'combined' : 'dev'));
   app.use('/api', generalLimiter);
 
   app.get('/api/health', (_req, res) => {
@@ -79,6 +74,10 @@ export function createApp({ serveFrontend = false } = {}) {
   app.use('/api/blogs', blogRoutes);
   app.use('/api/applications', applicationRoutes);
   app.use('/api/subscribers', subscriberRoutes);
+  app.use('/api/ai', aiRoutes);
+
+  // Unmatched /api routes must 404 as JSON, never fall through to the SPA shell.
+  app.use('/api', notFound);
 
   if (serveFrontend) {
     app.use(express.static(frontendDist, {

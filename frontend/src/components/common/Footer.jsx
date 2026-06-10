@@ -9,6 +9,7 @@ const footerLinks = {
         { label: 'Blog', path: '/blog' },
     ],
     Product: [
+        { label: 'Our Products', path: '/products' },
         { label: 'Bluelearnerhub', external: 'https://bluelearnerhub.com' },
     ],
 };
