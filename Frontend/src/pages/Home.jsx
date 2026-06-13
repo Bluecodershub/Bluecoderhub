@@ -1,0 +1,356 @@
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import {
+  FiArrowRight,
+  FiCheckCircle,
+  FiCpu,
+  FiDatabase,
+  FiLayers,
+  FiShield,
+  FiTarget,
+  FiTrendingUp,
+  FiZap,
+} from 'react-icons/fi';
+import { MdArchitecture, MdSchool, MdAccountBalance } from 'react-icons/md';
+import FadeInSection from '../components/animations/FadeInSection';
+import Logo from '../components/common/Logo';
+import products from '../data/products.json';
+import { ROUTES } from '../config/routes';
+
+const metrics = [
+  { value: '3', label: 'product lines' },
+  { value: '40+', label: 'platform capabilities' },
+  { value: '24/7', label: 'digital access' },
+  { value: '100%', label: 'builder-owned' },
+];
+
+const capabilities = [
+  {
+    icon: <FiCpu />,
+    title: 'AI Product Engineering',
+    text: 'Practical AI workflows, recommendation engines, copilots, and automation designed around real user journeys.',
+  },
+  {
+    icon: <FiDatabase />,
+    title: 'Data-Ready Platforms',
+    text: 'Structured backends, dashboards, analytics loops, and reliable operational surfaces for teams that need clarity.',
+  },
+  {
+    icon: <FiShield />,
+    title: 'Secure Foundations',
+    text: 'Authentication, permissions, validation, audit-ready flows, and production-minded delivery from the first build.',
+  },
+  {
+    icon: <FiLayers />,
+    title: 'Product Ecosystems',
+    text: 'Landing pages, portals, admin tools, learning systems, and SaaS interfaces that work together cleanly.',
+  },
+];
+
+const process = [
+  ['01', 'Map the opportunity', 'We turn loose ideas into a clear product surface, user journey, and measurable outcome.'],
+  ['02', 'Build the core loop', 'We prioritize the workflow users repeat most, then wire it to real data and useful feedback.'],
+  ['03', 'Polish and scale', 'We harden performance, accessibility, security, and operations before pushing the next layer.'],
+];
+
+const iconFor = {
+  bluelearnerhub: <MdSchool />,
+  financehub: <MdAccountBalance />,
+  'cad-copilot': <MdArchitecture />,
+};
+
+const statusLabel = {
+  live: 'Live',
+  'coming-soon': 'In development',
+};
+
+function ProductCard({ product, index }) {
+  const isLive = product.status === 'live';
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.55, delay: index * 0.08 }}
+      className="group rounded-2xl border border-white/10 bg-white/[0.045] p-5 sm:p-6 hover:border-emerald-300/40 hover:bg-white/[0.07] transition-all duration-300"
+    >
+      <div className="flex items-start justify-between gap-4 mb-6">
+        <div className="w-12 h-12 rounded-xl bg-white text-black flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(255,255,255,0.16)]">
+          {iconFor[product.id]}
+        </div>
+        <span className={`px-3 py-1 rounded-full text-xs font-bold ${isLive ? 'bg-emerald-300 text-black' : 'bg-white/10 text-gray-300 border border-white/10'}`}>
+          {statusLabel[product.status]}
+        </span>
+      </div>
+      <p className="text-xs font-mono uppercase text-emerald-200/70 mb-2">{product.category}</p>
+      <h3 className="text-xl font-display font-bold text-white mb-3">{product.name}</h3>
+      <p className="text-sm text-gray-400 leading-relaxed min-h-[5.25rem]">{product.description}</p>
+      <div className="mt-6">
+        {isLive ? (
+          <a
+            href={product.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-emerald-200 transition-colors"
+          >
+            Visit product <FiArrowRight className="transition-transform group-hover:translate-x-1" />
+          </a>
+        ) : (
+          <Link
+            to={ROUTES.PRODUCTS}
+            className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-emerald-200 transition-colors"
+          >
+            View roadmap <FiArrowRight className="transition-transform group-hover:translate-x-1" />
+          </Link>
+        )}
+      </div>
+    </motion.article>
+  );
+}
+
+function ProductConsole() {
+  return (
+    <div className="relative rounded-2xl border border-white/10 bg-[#060807]/90 p-4 sm:p-5 shadow-[0_30px_100px_rgba(0,0,0,0.55)] overflow-hidden">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/70 to-transparent" />
+      <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-300" />
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-300" />
+        </div>
+        <span className="text-xs font-mono text-gray-500">product-ops/live</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_0.9fr] gap-4">
+        <div className="rounded-xl bg-white/[0.055] border border-white/10 p-4">
+          <div className="flex items-center gap-3 mb-4">
+            <Logo className="w-10 h-10" animated={false} />
+            <div>
+              <p className="text-white font-bold leading-none">Bluecoderhub</p>
+              <p className="text-xs text-gray-500 mt-1">Operating system</p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            {['Learning engine', 'Finance kernel', 'CAD copilot'].map((item, index) => (
+              <div key={item} className="flex items-center gap-3">
+                <div className="h-2 flex-1 rounded-full bg-white/10 overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${[92, 48, 31][index]}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, delay: index * 0.15 }}
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-300 to-blue-300"
+                  />
+                </div>
+                <span className="w-24 text-xs text-gray-400">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            ['Users', 'active'],
+            ['APIs', 'stable'],
+            ['Design', 'shipping'],
+            ['Security', 'hardened'],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-xl bg-white/[0.045] border border-white/10 p-4">
+              <p className="text-xs text-gray-500 mb-2">{label}</p>
+              <p className="text-sm font-bold text-white">{value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-4 rounded-xl bg-emerald-300 text-black p-4 flex items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-extrabold">Next release lane</p>
+          <p className="text-xs text-black/65">Ship the highest-signal user flow first.</p>
+        </div>
+        <FiZap className="text-2xl shrink-0" />
+      </div>
+    </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <main className="min-h-screen bg-[#020403] text-white overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(16,185,129,0.22),transparent_28%),radial-gradient(circle_at_78%_18%,rgba(59,130,246,0.18),transparent_32%),linear-gradient(180deg,rgba(2,4,3,0.15),#020403_88%)]" />
+        <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(rgba(255,255,255,0.9)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.9)_1px,transparent_1px)] bg-[size:96px_96px]" />
+
+        <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
+          <FadeInSection>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-300/25 bg-emerald-300/10 text-emerald-100 text-sm font-semibold mb-7">
+              <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
+              Building product ecosystems from India for the world
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-extrabold leading-[0.95] tracking-normal text-white max-w-4xl">
+              Products, platforms, and AI systems that feel ready on day one.
+            </h1>
+            <p className="mt-7 max-w-2xl text-lg sm:text-xl text-gray-300 leading-relaxed">
+              Bluecoderhub designs and builds digital products across learning, finance, and engineering. We turn ambitious ideas into polished, usable software with the technical depth to keep scaling.
+            </p>
+            <div className="mt-9 flex flex-col sm:flex-row gap-3">
+              <Link
+                to={ROUTES.PRODUCTS}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-extrabold text-black hover:bg-emerald-100 transition-colors"
+              >
+                Explore Products <FiArrowRight />
+              </Link>
+              <Link
+                to={ROUTES.CONTACT}
+                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-bold text-white hover:bg-white/10 transition-colors"
+              >
+                Start a Conversation
+              </Link>
+            </div>
+          </FadeInSection>
+
+          <FadeInSection delay={0.1} direction="left">
+            <ProductConsole />
+          </FadeInSection>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-white/[0.035]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4">
+          {metrics.map((metric) => (
+            <div key={metric.label} className="py-7 sm:py-8 border-white/10 even:border-l lg:border-l first:border-l-0 text-center">
+              <p className="text-3xl sm:text-4xl font-display font-extrabold text-white">{metric.value}</p>
+              <p className="mt-1 text-xs sm:text-sm uppercase font-mono text-gray-500">{metric.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="next-section" className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <FadeInSection>
+            <div className="max-w-3xl mb-12">
+              <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">Product ecosystem</p>
+              <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white tracking-normal">
+                One company, multiple high-leverage product bets.
+              </h2>
+            </div>
+          </FadeInSection>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {products.map((product, index) => (
+              <ProductCard key={product.id} product={product} index={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white/[0.025] border-y border-white/10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-12">
+          <FadeInSection direction="right">
+            <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">What we do</p>
+            <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
+              Clean execution across product, design, and engineering.
+            </h2>
+            <p className="mt-5 text-gray-400 leading-relaxed">
+              The page should feel like the company: modern, useful, and serious about shipping. Every surface now points users toward products, careers, or a conversation.
+            </p>
+          </FadeInSection>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {capabilities.map((capability, index) => (
+              <FadeInSection key={capability.title} delay={index * 0.05}>
+                <div className="h-full rounded-2xl border border-white/10 bg-[#070a09] p-6">
+                  <div className="w-11 h-11 rounded-xl bg-emerald-300/12 text-emerald-200 border border-emerald-300/20 flex items-center justify-center text-xl mb-5">
+                    {capability.icon}
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-3">{capability.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">{capability.text}</p>
+                </div>
+              </FadeInSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <FadeInSection>
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+              <div className="max-w-3xl">
+                <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">Operating model</p>
+                <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
+                  From idea to usable software without losing the thread.
+                </h2>
+              </div>
+              <Link to={ROUTES.ABOUT} className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-emerald-200">
+                Learn about us <FiArrowRight />
+              </Link>
+            </div>
+          </FadeInSection>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {process.map(([step, title, text], index) => (
+              <FadeInSection key={step} delay={index * 0.06}>
+                <div className="relative h-full rounded-2xl border border-white/10 bg-white/[0.04] p-6 overflow-hidden">
+                  <span className="text-6xl font-display font-black text-white/[0.055] absolute top-4 right-5">{step}</span>
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-lg bg-white text-black flex items-center justify-center font-extrabold mb-8">
+                      {step}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed">{text}</p>
+                  </div>
+                </div>
+              </FadeInSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#eafdf5] text-[#07110d]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-12 items-center">
+          <FadeInSection direction="right">
+            <p className="text-sm font-extrabold uppercase text-emerald-700 mb-3">Why it feels better</p>
+            <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
+              A sharper homepage with fewer dead ends.
+            </h2>
+            <p className="mt-5 text-slate-700 leading-relaxed">
+              The landing page now gives visitors a clear first impression, shows what Bluecoderhub builds, and makes the next action obvious from every major section.
+            </p>
+          </FadeInSection>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              'Real product cards tied to current company data',
+              'Responsive layout for mobile, tablet, and desktop',
+              'Stable rendering without fragile WebGPU dependencies',
+              'Navigation paths for contact and legal pages',
+            ].map((item) => (
+              <div key={item} className="flex gap-3 rounded-xl bg-white/70 border border-emerald-900/10 p-4">
+                <FiCheckCircle className="text-emerald-700 text-xl shrink-0 mt-0.5" />
+                <p className="text-sm font-semibold leading-relaxed">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto text-center rounded-3xl border border-white/10 bg-white/[0.045] p-8 sm:p-12">
+          <div className="mx-auto w-16 h-16 rounded-2xl bg-white flex items-center justify-center mb-6">
+            <FiTarget className="text-black text-3xl" />
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
+            Ready to build the next serious product?
+          </h2>
+          <p className="mt-5 text-gray-400 max-w-2xl mx-auto">
+            Explore the product ecosystem, see open roles, or start a conversation about what you want to launch.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+            <Link to={ROUTES.CONTACT} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-extrabold text-black hover:bg-emerald-100 transition-colors">
+              Contact Bluecoderhub <FiArrowRight />
+            </Link>
+            <Link to={ROUTES.CAREERS} className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-bold text-white hover:bg-white/10 transition-colors">
+              View Careers
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

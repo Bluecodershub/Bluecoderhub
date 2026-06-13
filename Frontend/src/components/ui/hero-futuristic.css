@@ -1,0 +1,150 @@
+.hero-futuristic {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 55% 42%, rgba(52, 211, 153, 0.16), transparent 28%),
+    radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.16), transparent 34%),
+    #020403;
+}
+
+.hero-futuristic::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 30vh;
+  background: linear-gradient(to bottom, rgba(2, 4, 3, 0), #020403);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hero-futuristic__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-futuristic__media {
+  position: absolute;
+  inset: 8rem 6vw 5rem auto;
+  width: min(42vw, 34rem);
+  display: grid;
+  place-items: center;
+  z-index: 1;
+  opacity: 0.2;
+  filter: drop-shadow(0 0 60px rgba(52, 211, 153, 0.3));
+}
+
+.hero-futuristic__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-futuristic__content {
+  position: relative;
+  z-index: 3;
+  min-height: 100vh;
+  width: min(100%, 78rem);
+  margin: 0 auto;
+  padding: 8rem 1.5rem 7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.hero-futuristic__eyebrow {
+  margin: 0 0 1rem;
+  color: rgba(167, 243, 208, 0.86);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.hero-futuristic__title {
+  margin: 0;
+  max-width: 13ch;
+  color: #ffffff;
+  font-size: clamp(3.2rem, 9vw, 8.2rem);
+  font-weight: 850;
+  line-height: 0.94;
+  letter-spacing: 0;
+}
+
+.hero-futuristic__title span {
+  display: inline-block;
+  margin-right: 0.18em;
+  opacity: 0;
+  transform: translateY(1.4rem);
+}
+
+.hero-futuristic__title span.is-visible {
+  animation: hero-word-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-futuristic__subtitle {
+  margin: 1.6rem 0 0;
+  max-width: 42rem;
+  color: rgba(226, 232, 240, 0.82);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  line-height: 1.55;
+}
+
+.hero-futuristic__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 2.5rem;
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #050505;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.hero-futuristic__action:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  border-color: rgba(52, 211, 153, 0.55);
+}
+
+.hero-futuristic__action span {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+@keyframes hero-word-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 820px) {
+  .hero-futuristic {
+    min-height: 92vh;
+  }
+
+  .hero-futuristic__media {
+    inset: auto 1.5rem 5rem auto;
+    width: min(68vw, 22rem);
+    opacity: 0.14;
+  }
+
+  .hero-futuristic__content {
+    min-height: 92vh;
+    padding: 7rem 1.25rem 5rem;
+  }
+
+  .hero-futuristic__title {
+    font-size: clamp(3rem, 16vw, 5rem);
+  }
+}

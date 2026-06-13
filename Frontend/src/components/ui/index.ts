@@ -1,0 +1,1 @@
+export { Html as HeroFuturistic } from './hero-futuristic';
