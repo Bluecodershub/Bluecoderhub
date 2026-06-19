@@ -58,7 +58,7 @@ The runtime image serves `Frontend/dist` through the Express server in `Backend`
 
 ## Vercel/static Deploy
 
-`Devops/vercel.json` is path-adjusted for the new folder names. If using Vercel, set the project root to the repository root and use the commands in that config:
+The root `vercel.json` is path-adjusted for the workspace folders. Keep the Vercel project root set to the repository root so Vercel can discover both the configuration and `api/[...path].js`:
 
 ```bash
 npm --prefix Frontend install && npm --prefix Backend install
