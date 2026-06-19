@@ -58,7 +58,7 @@ function NotFound() {
     );
 }
 
-import { PremiumBackground, CustomCursor } from './components/animations';
+import { PremiumBackground } from './components/animations';
 
 function AppRoutes() {
     const location = useLocation();
@@ -66,7 +66,6 @@ function AppRoutes() {
     return (
         <div className="relative min-h-screen">
             <PremiumBackground />
-            <CustomCursor />
             <div className="noise-overlay" />
             <Navbar />
             <AnimatePresence mode="wait">
