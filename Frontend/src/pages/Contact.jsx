@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FiMail, FiMapPin, FiSend, FiUsers } from 'react-icons/fi';
 import FadeInSection from '../components/animations/FadeInSection';
+import { COMPANY_EMAIL } from '../config/constants';
 import { api } from '../utils/api';
 
 export default function Contact() {
@@ -37,7 +38,7 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-6">
           <div className="space-y-4">
             {[
-              [<FiMail />, 'Email', 'hello@bluecoderhub.com'],
+              [<FiMail />, 'Email', COMPANY_EMAIL],
               [<FiUsers />, 'Work with us', 'Product builds, platforms, and partnerships'],
               [<FiMapPin />, 'Base', 'India, building globally'],
             ].map(([icon, label, value]) => (
