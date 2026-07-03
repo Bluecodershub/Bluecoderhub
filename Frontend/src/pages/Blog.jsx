@@ -9,6 +9,97 @@ function formatDate(value) {
     return new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
+const SITE_ORIGIN = 'https://bluecoderhub.com';
+const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/og-image.png`;
+const SITE_DEFAULT_TITLE = 'Bluecoderhub PVT LTD - Products, Platforms, and AI Systems';
+const SITE_DEFAULT_DESCRIPTION = 'Bluecoderhub PVT LTD builds product ecosystems across learning, finance, engineering, and AI-powered digital platforms.';
+
+function setMeta(selector, attr, value) {
+    let el = document.head.querySelector(selector);
+    if (!el) {
+        el = document.createElement('meta');
+        const [name, val] = selector.replace(/^meta\[/, '').replace(/\]$/, '').split('=');
+        el.setAttribute(name, val.replace(/["']/g, ''));
+        document.head.appendChild(el);
+    }
+    el.setAttribute('content', value);
+    return el;
+}
+
+function setLink(rel, href) {
+    let el = document.head.querySelector(`link[rel="${rel}"]`);
+    if (!el) {
+        el = document.createElement('link');
+        el.setAttribute('rel', rel);
+        document.head.appendChild(el);
+    }
+    el.setAttribute('href', href);
+    return el;
+}
+
+function usePostSEO(post) {
+    useEffect(() => {
+        if (!post) return undefined;
+        const prevTitle = document.title;
+        const url = `${SITE_ORIGIN}/blog/${post.slug || post.id}`;
+        const title = post.metaTitle || `${post.title} | Bluecoderhub`;
+        const description = post.metaDescription || post.excerpt || SITE_DEFAULT_DESCRIPTION;
+        const keywords = post.keywords || (Array.isArray(post.tags) ? post.tags.join(', ') : '');
+        const ogImage = post.ogImage || DEFAULT_OG_IMAGE;
+
+        document.title = title;
+        setMeta('meta[name="description"]', 'content', description);
+        if (keywords) setMeta('meta[name="keywords"]', 'content', keywords);
+        setMeta('meta[name="author"]', 'content', post.author || 'Bluecoderhub Research');
+        setMeta('meta[name="robots"]', 'content', 'index, follow, max-image-preview:large');
+        setLink('canonical', url);
+
+        setMeta('meta[property="og:type"]', 'content', 'article');
+        setMeta('meta[property="og:title"]', 'content', title);
+        setMeta('meta[property="og:description"]', 'content', description);
+        setMeta('meta[property="og:url"]', 'content', url);
+        setMeta('meta[property="og:image"]', 'content', ogImage);
+        setMeta('meta[property="article:published_time"]', 'content', post.created_at || '');
+        setMeta('meta[property="article:author"]', 'content', post.author || 'Bluecoderhub Research');
+        setMeta('meta[property="article:section"]', 'content', post.category || '');
+        setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
+        setMeta('meta[name="twitter:title"]', 'content', title);
+        setMeta('meta[name="twitter:description"]', 'content', description);
+        setMeta('meta[name="twitter:image"]', 'content', ogImage);
+
+        const jsonLd = {
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description,
+            author: { '@type': 'Organization', name: post.author || 'Bluecoderhub Research' },
+            publisher: {
+                '@type': 'Organization',
+                name: 'Bluecoderhub PVT LTD',
+                logo: { '@type': 'ImageObject', url: `${SITE_ORIGIN}/images/white_logo.png` }
+            },
+            datePublished: post.created_at,
+            dateModified: post.updated_at || post.created_at,
+            mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+            image: ogImage,
+            keywords,
+            articleSection: post.category
+        };
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.setAttribute('data-blog-jsonld', '1');
+        script.textContent = JSON.stringify(jsonLd);
+        document.head.appendChild(script);
+
+        return () => {
+            document.title = prevTitle || SITE_DEFAULT_TITLE;
+            setMeta('meta[name="description"]', 'content', SITE_DEFAULT_DESCRIPTION);
+            setLink('canonical', SITE_ORIGIN);
+            script.remove();
+        };
+    }, [post]);
+}
+
 /**
  * A simple "Mini-Markdown" renderer to handle headers and paragraphs
  * without needing an external dependency or bypassing security sanitizers.
@@ -110,8 +201,11 @@ export function BlogPost() {
         // Try API first
         api.getBlog(postId)
             .then((data) => {
-                if (data.blog) setPost(data.blog);
-                else throw new Error('Not found');
+                if (data.blog) {
+                    // Merge in SEO metadata from local file if API record lacks it
+                    const local = blogData.find(p => p.slug === data.blog.slug || p.id === data.blog.id);
+                    setPost(local ? { ...local, ...data.blog } : data.blog);
+                } else throw new Error('Not found');
             })
             .catch(() => {
                 // Fallback to local data
@@ -121,6 +215,8 @@ export function BlogPost() {
             })
             .finally(() => setLoading(false));
     }, [postId]);
+
+    usePostSEO(post);
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center bg-black">
