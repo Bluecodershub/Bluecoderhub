@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { captureError } from '../../lib/sentry.js';
 
 export default class ErrorBoundary extends Component {
     constructor(props) {
@@ -19,6 +20,13 @@ export default class ErrorBoundary extends Component {
         } else {
             console.error('[ErrorBoundary] Unexpected error. Error ID:', errorId);
         }
+
+        // Ship to Sentry when configured; no-op console log when not.
+        captureError(error, {
+            errorId,
+            componentName,
+            componentStack: errorInfo?.componentStack,
+        });
     }
 
     handleReset = () => {

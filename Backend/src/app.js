@@ -10,6 +10,7 @@ import { generalLimiter } from './middleware/rateLimits.js';
 import { requestId, requestLogger } from './middleware/requestId.js';
 import { securityHeaders } from './middleware/security.js';
 import { errorHandler, notFound } from './utils/errors.js';
+import { initSentry } from './lib/sentry.js';
 import authRoutes from './routes/auth.js';
 import blogRoutes from './routes/blogs.js';
 import applicationRoutes from './routes/applications.js';
@@ -20,6 +21,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const frontendDist = path.resolve(__dirname, '../../Frontend/dist');
 
 export function createApp({ serveFrontend = false } = {}) {
+  // Fire and forget; no-op when SENTRY_DSN is unset. Errors during Sentry
+  // bootstrap must never prevent the API from serving.
+  initSentry().catch(() => {});
+
   const app = express();
 
   app.set('trust proxy', 1);

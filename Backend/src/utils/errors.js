@@ -1,3 +1,5 @@
+import { captureError } from '../lib/sentry.js';
+
 export class HttpError extends Error {
   constructor(status, message, code = 'error') {
     super(message);
@@ -10,7 +12,7 @@ export function notFound(req, _res, next) {
   next(new HttpError(404, `Route not found: ${req.method} ${req.originalUrl}`, 'not_found'));
 }
 
-export function errorHandler(err, _req, res, _next) {
+export function errorHandler(err, req, res, _next) {
   const status = Number(err.status || 500);
   const safeStatus = status >= 400 && status < 600 ? status : 500;
   const payload = {
@@ -20,6 +22,13 @@ export function errorHandler(err, _req, res, _next) {
 
   if (safeStatus >= 500) {
     console.error('[api:error]', err);
+    // Ship to Sentry when configured; no-op when SENTRY_DSN is unset.
+    captureError(err, {
+      requestId: req.id,
+      method: req.method,
+      url: req.originalUrl,
+      status: safeStatus,
+    }).catch(() => {});
   }
 
   res.status(safeStatus).json(payload);
