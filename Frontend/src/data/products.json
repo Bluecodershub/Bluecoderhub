@@ -1,34 +1,5 @@
 [
     {
-        "id": "bluelearnerhub",
-        "name": "Bluelearnerhub",
-        "tagline": "Adaptive Learning Platform",
-        "description": "An intelligent learning platform that personalizes education through structured learning paths, gamified experiences, and real-time progress tracking.",
-        "status": "live",
-        "url": "https://bluelearnerhub.com",
-        "icon": "school",
-        "color": "#ffffff",
-        "features": [
-            "Adaptive Learning Paths",
-            "Gamified Achievements & XP",
-            "Live Coding Challenges",
-            "Peer-to-Peer Learning",
-            "Real-time Progress Analytics",
-            "Certificate Generation"
-        ],
-        "category": "EdTech"
-    },
-    {
-        "id": "financehub",
-        "name": "FinanceHub",
-        "tagline": "Smart Financial Management Platform",
-        "description": "A financial management platform currently in the prototype phase. We are focused on building a robust core architecture before unveiling its full capabilities.",
-        "status": "coming-soon",
-        "icon": "finance",
-        "color": "#ffffff",
-        "category": "FinTech"
-    },
-    {
         "id": "cad-copilot",
         "name": "AI CAD Copilot",
         "tagline": "AI Assistant for Engineering Design",

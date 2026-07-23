@@ -3,17 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import FadeInSection from '../components/animations/FadeInSection';
 import LiquidBlob from '../components/animations/LiquidBlob';
 import { gsap, ScrollTrigger, useGSAPContext } from '../hooks/useScrollTrigger';
-import { FiTarget, FiEye, FiAward, FiUser, FiLinkedin, FiGithub, FiTwitter } from 'react-icons/fi';
-import team from '../data/team.json';
-
-const SocialIcon = ({ platform }) => {
-    switch (platform) {
-        case 'linkedin': return <FiLinkedin />;
-        case 'github': return <FiGithub />;
-        case 'twitter': return <FiTwitter />;
-        default: return <FiUser />;
-    }
-};
+import { FiTarget, FiEye, FiAward } from 'react-icons/fi';
 
 const timeline = [
     { id: '1', title: 'The Genesis', desc: 'Bluecoderhub PVT LTD established as a center for technological innovation and strategic product development.' },
@@ -37,7 +27,6 @@ const quotes = [
 export default function About() {
     const [quoteIndex, setQuoteIndex] = useState(0);
     const timelineRef = useRef(null);
-    const teamGridRef = useRef(null);
     const valuesRef = useRef(null);
 
     useEffect(() => {
@@ -88,27 +77,7 @@ export default function About() {
             });
         }
 
-        // 2. Team cards — stagger cascade from bottom
-        if (teamGridRef.current) {
-            gsap.fromTo(
-                teamGridRef.current.querySelectorAll('.st-team-card'),
-                { opacity: 0, y: 50 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.5,
-                    stagger: { amount: 0.6, from: 'start' },
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: teamGridRef.current,
-                        start: 'top 80%',
-                        toggleActions: 'play none none none',
-                    },
-                }
-            );
-        }
-
-        // 3. Values cards — scale in with a slight bounce
+        // 2. Values cards — scale in with a slight bounce
         if (valuesRef.current) {
             gsap.fromTo(
                 valuesRef.current.querySelectorAll('.st-value-card'),
@@ -167,54 +136,6 @@ export default function About() {
                             <h3 className="font-display font-bold text-white text-xl mb-3">{v.title}</h3>
                             <p className="text-gray-400 text-sm leading-relaxed">{v.desc}</p>
                         </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* Team */}
-            <section className="max-w-7xl mx-auto px-4 py-16">
-                <FadeInSection>
-                    <div className="text-center mb-16">
-                        <div className="inline-block px-4 py-1.5 rounded-full border border-white/30 bg-white/5 text-white text-sm font-medium mb-4">
-                            The Team
-                        </div>
-                        <h2 className="text-4xl font-display font-bold text-white mb-4">
-                            Meet the <span className="gradient-text">Minds</span>
-                        </h2>
-                        <p className="text-gray-400 max-w-2xl mx-auto">
-                            A diverse team of passionate technologists, thinkers, and builders from around the world.
-                        </p>
-                    </div>
-                </FadeInSection>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" ref={teamGridRef}>
-                    {team.map((member, i) => (
-                        <motion.div
-                            key={member.id}
-                            whileHover={{ y: -8, boxShadow: '0 20px 60px rgba(255,255,255,0.1)' }}
-                            className="st-team-card glassmorphism rounded-2xl border border-white/20 p-6 text-center group transition-all duration-300"
-                            >
-                                <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-4xl text-brand-blue">
-                                    <FiUser />
-                                </div>
-                                <h3 className="font-display font-bold text-white text-lg mb-1">{member.name}</h3>
-                                <p className="text-white opacity-60 text-sm font-medium mb-3">{member.role}</p>
-                                <p className="text-gray-400 text-xs leading-relaxed mb-4">{member.bio}</p>
-                                <div className="flex justify-center gap-3">
-                                    {Object.entries(member.social).map(([platform, url]) => (
-                                        <a
-                                            key={platform}
-                                            href={url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-brand-blue transition-all"
-                                            aria-label={platform}
-                                        >
-                                            <SocialIcon platform={platform} />
-                                        </a>
-                                    ))}
-                                </div>
-                            </motion.div>
                     ))}
                 </div>
             </section>
