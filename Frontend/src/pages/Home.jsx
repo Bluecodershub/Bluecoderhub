@@ -198,21 +198,43 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-300/25 bg-emerald-300/10 text-emerald-100 text-sm font-semibold mb-7"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-300/25 bg-emerald-300/10 text-emerald-100 text-sm font-semibold mb-5"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
               A product studio building AI-native tools for engineers
             </motion.div>
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              variants={{ hidden: {}, visible: { transition: { delayChildren: 0.3, staggerChildren: 0.12 } } }}
+              aria-label="sketch. solve. ship."
+              className="mb-7 flex items-center gap-3 font-mono text-xs sm:text-sm uppercase tracking-[0.35em] text-emerald-200/80"
+            >
+              {['sketch.', 'solve.', 'ship.'].map((word) => (
+                <motion.span
+                  key={word}
+                  variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } } }}
+                  className="inline-block"
+                >
+                  {word}
+                </motion.span>
+              ))}
+              <motion.span
+                variants={{ hidden: { opacity: 0, scaleX: 0 }, visible: { opacity: 1, scaleX: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+                className="hidden sm:block h-px w-16 bg-gradient-to-r from-emerald-300/60 to-transparent origin-left"
+                aria-hidden="true"
+              />
+            </motion.p>
             <AnimatedHeading
               text="Engineering-grade AI, embedded in the tools you already build with."
               className="text-5xl sm:text-6xl lg:text-7xl font-display font-extrabold leading-[0.95] tracking-normal text-white max-w-4xl"
-              delay={0.15}
+              delay={0.75}
               wordDelay={0.06}
             />
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
               className="mt-7 max-w-2xl text-lg sm:text-xl text-gray-300 leading-relaxed"
             >
               Bluecoderhub is a product studio headquartered in Chennai. Our flagship product, the AI CAD Copilot, translates natural-language intent into parametric geometry, sketch suggestions, and design-rule checks — engineered to sit alongside the modelers your team already uses.
@@ -220,7 +242,7 @@ export default function HomePage() {
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 1.05, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, delay: 1.7, ease: [0.22, 1, 0.36, 1] }}
               className="mt-9 flex flex-col sm:flex-row gap-3"
             >
               <Magnetic strength={0.25}>
