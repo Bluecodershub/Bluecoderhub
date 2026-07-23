@@ -321,12 +321,19 @@ export default function Blog() {
         setError('');
         api.listBlogs()
             .then((data) => {
-                if (data.blogs) {
-                    setPosts(data.blogs);
+                if (Array.isArray(data?.blogs) && data.blogs.length > 0) {
+                    // Merge in local SEO metadata for posts that also live in the static file.
+                    const merged = data.blogs.map((remote) => {
+                        const local = blogData.find((p) => p.slug === remote.slug || p.id === remote.id);
+                        return local ? { ...local, ...remote } : remote;
+                    });
+                    setPosts(merged);
+                } else {
+                    setPosts(blogData);
                 }
             })
             .catch((err) => {
-                console.warn('Blog API unavailable, using sample data:', err);
+                console.warn('Blog API unavailable, using bundled research library:', err);
                 setPosts(blogData);
             })
             .finally(() => setLoading(false));
