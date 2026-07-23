@@ -8,11 +8,11 @@ import jobs from '../data/jobs.json';
 import { api } from '../utils/api';
 
 const cultureSlides = [
-    { title: 'Innovation First', desc: 'We believe in pushing boundaries and embracing new technologies. Every project is a chance to innovate.', icon: <FiZap /> },
-    { title: 'Collaborative Environment', desc: 'Ideas come from everywhere. We have a flat hierarchy where every voice matters and collaboration thrives.', icon: <FiUsers /> },
-    { title: 'Continuous Learning', desc: 'We invest in our people. From learning budgets to weekly knowledge-sharing sessions, growth never stops.', icon: <FiBookOpen /> },
-    { title: 'Work-Life Balance', desc: 'Sustainable pace, flexible hours, and a focus on personal wellness. We work hard and recharge well.', icon: <FiSun /> },
-    { title: 'Global Impact', desc: 'Our products reach users in 5+ countries. The work you do here reaches and inspires people worldwide.', icon: <FiGlobe /> },
+    { title: 'Engineering-first', desc: 'We build tools for engineers because we are engineers. Every roadmap decision is made against the workflows the tool has to live inside.', icon: <FiZap /> },
+    { title: 'A small, focused team', desc: 'One product bet at a time. Tight iteration loops. Every contributor owns a surface end-to-end and reviews the work that surrounds it.', icon: <FiUsers /> },
+    { title: 'Continuous research', desc: 'The best CAD tool of 2028 is not obvious yet. We invest in reading, prototyping, and disagreeing carefully. Growth is part of the job.', icon: <FiBookOpen /> },
+    { title: 'Sustainable cadence', desc: 'Flexible hours, deep-work protection, and a bias toward shipping the smallest useful thing. We ship steadily rather than sprinting for demos.', icon: <FiSun /> },
+    { title: 'Built from India, for the world', desc: 'Headquartered in Chennai, designing for engineering teams globally. Remote-friendly for the roles it fits.', icon: <FiGlobe /> },
 ];
 
 
@@ -81,14 +81,14 @@ export default function Careers() {
                 <div className="relative z-10 max-w-4xl mx-auto px-4 py-24">
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 text-white/80 text-sm font-medium mb-8">
-                            Global Innovation
+                            Small team. Big product bet.
                         </div>
                         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-white mb-6 leading-none">
-                            Build Your <span className="gradient-text">Future</span>
+                            Build the tools <span className="gradient-text">engineers reach for.</span>
                         </h1>
                         <p className="text-gray-400 text-xl mb-8 max-w-2xl mx-auto">
-                            Join Bluecoderhub PVT LTD and work on products that matter,
-                            with people who care, from anywhere in the world.
+                            Bluecoderhub is a product studio building the AI CAD Copilot. We hire for judgment, taste,
+                            and the ability to ship the boring layers between an idea and a working tool.
                         </p>
                     </motion.div>
                 </div>
@@ -100,13 +100,20 @@ export default function Careers() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <FadeInSection>
                         <div className="inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/5 text-white/70 text-sm font-medium mb-6">
-                            Why Bluecoderhub?
+                            Why Bluecoderhub
                         </div>
                         <h2 className="text-4xl font-display font-bold text-white mb-6">
-                            A Place Where <span className="gradient-text">Talent Thrives</span>
+                            Real work. <span className="gradient-text">Real ownership.</span>
                         </h2>
                         <div className="space-y-4">
-                            {['Cutting-edge technology stack always', 'Global clients, meaningful projects', 'Culture of continuous learning', 'Remote-first, flexible work hours', 'Transparent career progression', 'Competitive pay + equity options'].map((point, i) => (
+                            {[
+                                'One shipping product bet — the AI CAD Copilot',
+                                'Own a surface end-to-end, not a corner of a corner',
+                                'A team of engineers, designers, and mechanical experts',
+                                'Deep-work protected schedule, no theatrical stand-ups',
+                                'Learning budget for books, courses, and conferences',
+                                'Competitive compensation, meaningful equity',
+                            ].map((point, i) => (
                                 <motion.div key={point} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}
                                     className="flex items-center gap-3">
                                     <div className="w-6 h-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white text-xs flex-shrink-0">✓</div>
@@ -119,9 +126,9 @@ export default function Careers() {
                         <div className="h-full">
                             <div className="glassmorphism rounded-3xl border border-white/10 p-8 h-full flex items-center justify-center" style={{ boxShadow: '0 0 60px rgba(255,255,255,0.05)' }}>
                                 <div className="text-center">
-                                    <div className="text-5xl mb-4">🌍</div>
-                                    <h3 className="text-xl font-display font-bold text-white mb-2">Global Impact</h3>
-                                    <p className="text-gray-400 text-sm">Join a borderless team building for a global audience.</p>
+                                    <div className="text-5xl mb-4 flex justify-center text-brand-blue"><FiGlobe /></div>
+                                    <h3 className="text-xl font-display font-bold text-white mb-2">Built from Chennai</h3>
+                                    <p className="text-gray-400 text-sm">Designing for engineering teams globally. Remote-friendly for the roles it fits.</p>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +141,7 @@ export default function Careers() {
                 <div className="max-w-5xl mx-auto px-4">
                     <FadeInSection>
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl font-display font-bold text-white mb-4">Our <span className="gradient-text">Culture</span></h2>
+                            <h2 className="text-3xl font-display font-bold text-white mb-4">How we <span className="gradient-text">operate</span></h2>
                         </div>
                     </FadeInSection>
                     <div className="glassmorphism rounded-3xl border border-white/10 overflow-hidden">
@@ -165,8 +172,8 @@ export default function Careers() {
             <section className="max-w-5xl mx-auto px-4 py-20">
                 <FadeInSection>
                     <div className="text-center mb-10">
-                        <h2 className="text-3xl font-display font-bold text-white mb-3">Apply Now</h2>
-                        <p className="text-gray-400">Applications are stored securely on the server and reviewed by admins.</p>
+                        <h2 className="text-3xl font-display font-bold text-white mb-3">Apply</h2>
+                        <p className="text-gray-400">Applications are stored securely on our servers and reviewed by the team.</p>
                     </div>
                 </FadeInSection>
                 <form onSubmit={handleApplication} noValidate aria-label="Job Application Form" className="glassmorphism rounded-2xl border border-white/10 p-6 space-y-4">
@@ -181,7 +188,7 @@ export default function Careers() {
                     <input type="url" value={form.portfolioUrl} onChange={(e) => setForm({ ...form, portfolioUrl: e.target.value })} placeholder="Portfolio or LinkedIn URL (optional)" className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm" />
                     <textarea value={form.coverLetter} onChange={(e) => setForm({ ...form, coverLetter: e.target.value })} placeholder="Tell us why this role fits you" rows={5} required className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm" />
                     {submitState.error && <p className="text-sm text-red-400">{submitState.error}</p>}
-                    {submitState.message && <p className="text-sm text-green-400">{submitState.message}</p>}
+                    {submitState.message && <p className="text-sm text-blue-400">{submitState.message}</p>}
                     <div className="flex flex-col sm:flex-row gap-3">
                         <button disabled={submitState.loading} className="px-6 py-3 rounded-xl text-sm font-bold text-black bg-white disabled:opacity-50">
                             {submitState.loading ? 'Submitting...' : 'Submit Application'}

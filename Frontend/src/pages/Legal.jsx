@@ -23,7 +23,7 @@ export default function Legal() {
   return (
     <main className="min-h-screen pt-28 pb-20 px-4 sm:px-6 lg:px-8">
       <section className="max-w-3xl mx-auto rounded-2xl border border-white/10 bg-white/[0.045] p-6 sm:p-8">
-        <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">Bluecoderhub</p>
+        <p className="text-sm font-bold uppercase text-blue-200/80 mb-3">Bluecoderhub</p>
         <h1 className="text-4xl sm:text-5xl font-display font-extrabold text-white tracking-normal">
           {page.title}
         </h1>
@@ -31,7 +31,7 @@ export default function Legal() {
         <p className="mt-5 text-sm text-gray-500">
           This is a lightweight public notice for the local site. Replace it with reviewed legal copy before production launch.
         </p>
-        <Link to={ROUTES.CONTACT} className="inline-flex mt-8 min-h-11 items-center justify-center rounded-lg bg-white px-5 text-sm font-extrabold text-black hover:bg-emerald-100 transition-colors">
+        <Link to={ROUTES.CONTACT} className="inline-flex mt-8 min-h-11 items-center justify-center rounded-lg bg-white px-5 text-sm font-extrabold text-black hover:bg-blue-100 transition-colors">
           Contact Us
         </Link>
       </section>

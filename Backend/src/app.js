@@ -85,7 +85,11 @@ export function createApp({ serveFrontend = false } = {}) {
       maxAge: '1y',
       index: false
     }));
-    app.get('*', (_req, res) => {
+    // SPA fallback: serve the shell for any GET that isn't /api or a static asset.
+    // Using app.use with an explicit method guard avoids Express 5's stricter
+    // pattern parsing of app.get('*', ...).
+    app.use((req, res, next) => {
+      if (req.method !== 'GET') return next();
       res.sendFile(path.join(frontendDist, 'index.html'));
     });
   } else {

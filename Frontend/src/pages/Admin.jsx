@@ -121,8 +121,8 @@ function BlogManager() {
         });
     };
 
-    const remove = async (id) => {
-        if (!window.confirm('Delete this blog post?')) return;
+    const remove = async (id, title) => {
+        if (!window.confirm(`Delete "${title}"? This cannot be undone.`)) return;
         await api.deleteBlog(id);
         await load();
     };
@@ -178,7 +178,7 @@ function BlogManager() {
                     Published
                 </label>
                 {error && <p className="text-sm text-red-400">{error}</p>}
-                {saved && <p className="text-sm text-green-400">{saved}</p>}
+                {saved && <p className="text-sm text-blue-400">{saved}</p>}
                 <div className="flex gap-3">
                     <button className="px-6 py-3 rounded-xl text-sm font-bold text-black bg-white">Save</button>
                     {editingId && <button type="button" onClick={() => { setEditingId(null); setForm(emptyBlog); }} className="px-6 py-3 rounded-xl text-sm text-gray-300 border border-white/10">Cancel</button>}
@@ -194,7 +194,7 @@ function BlogManager() {
                         </div>
                         <div className="flex gap-2">
                             <button onClick={() => edit(blog)} className="px-3 py-2 rounded-lg text-sm text-white border border-white/10">Edit</button>
-                            <button onClick={() => remove(blog.id)} className="px-3 py-2 rounded-lg text-sm text-red-300 border border-red-400/20">Delete</button>
+                            <button onClick={() => remove(blog.id, blog.title)} className="px-3 py-2 rounded-lg text-sm text-red-300 border border-red-400/20 hover:bg-red-500/10 transition-colors">Delete</button>
                         </div>
                     </div>
                 ))}
@@ -273,7 +273,8 @@ function SubscribersManager() {
         load().catch((err) => setError(err.message));
     }, [load]);
 
-    const remove = async (id) => {
+    const remove = async (id, email) => {
+        if (!window.confirm(`Remove subscriber ${email}? This cannot be undone.`)) return;
         await api.deleteSubscriber(id);
         await load();
     };
@@ -286,7 +287,7 @@ function SubscribersManager() {
                 {subscribers.map((subscriber) => (
                     <div key={subscriber.id} className="glassmorphism rounded-xl border border-white/10 px-4 py-3 flex items-center justify-between">
                         <span className="text-white text-sm">{subscriber.email}</span>
-                        <button onClick={() => remove(subscriber.id)} className="text-xs text-red-300">Remove</button>
+                        <button onClick={() => remove(subscriber.id, subscriber.email)} className="text-xs text-red-300 hover:text-red-200">Remove</button>
                     </div>
                 ))}
                 {subscribers.length === 0 && <p className="text-gray-500">No subscribers yet.</p>}

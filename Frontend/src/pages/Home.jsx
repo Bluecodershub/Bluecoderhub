@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import CountUp from 'react-countup';
 import {
   FiArrowRight,
   FiCheckCircle,
@@ -17,16 +16,11 @@ import AnimatedHeading from '../components/animations/AnimatedHeading';
 import Magnetic from '../components/animations/Magnetic';
 import Marquee from '../components/animations/Marquee';
 import TiltCard from '../components/animations/TiltCard';
+import Spotlight from '../components/animations/Spotlight';
+import TextScramble from '../components/animations/TextScramble';
 import Logo from '../components/common/Logo';
 import products from '../data/products.json';
 import { ROUTES } from '../config/routes';
-
-const metrics = [
-  { value: 1, suffix: '', label: 'Flagship product' },
-  { value: 4, suffix: '+', label: 'Years engineering depth' },
-  { value: 100, suffix: '%', label: 'Founder-owned' },
-  { value: 24, suffix: '/7', label: 'Build cadence' },
-];
 
 const marqueeTerms = [
   'Parametric geometry',
@@ -86,17 +80,17 @@ function ProductCard({ product, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.55, delay: index * 0.08 }}
-      className="group rounded-2xl border border-white/10 bg-white/[0.045] p-5 sm:p-6 hover:border-emerald-300/40 hover:bg-white/[0.07] transition-all duration-300"
+      className="group rounded-2xl border border-white/10 bg-white/[0.045] p-5 sm:p-6 hover:border-blue-300/40 hover:bg-white/[0.07] transition-all duration-300"
     >
       <div className="flex items-start justify-between gap-4 mb-6">
         <div className="w-12 h-12 rounded-xl bg-white text-black flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(255,255,255,0.16)]">
           {iconFor[product.id]}
         </div>
-        <span className={`px-3 py-1 rounded-full text-xs font-bold ${isLive ? 'bg-emerald-300 text-black' : 'bg-white/10 text-gray-300 border border-white/10'}`}>
+        <span className={`px-3 py-1 rounded-full text-xs font-bold ${isLive ? 'bg-blue-300 text-black' : 'bg-white/10 text-gray-300 border border-white/10'}`}>
           {statusLabel[product.status]}
         </span>
       </div>
-      <p className="text-xs font-mono uppercase text-emerald-200/70 mb-2">{product.category}</p>
+      <p className="text-xs font-mono uppercase text-blue-200/70 mb-2">{product.category}</p>
       <h3 className="text-xl font-display font-bold text-white mb-3">{product.name}</h3>
       <p className="text-sm text-gray-400 leading-relaxed min-h-[5.25rem]">{product.description}</p>
       <div className="mt-6">
@@ -105,14 +99,14 @@ function ProductCard({ product, index }) {
             href={product.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-emerald-200 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-blue-200 transition-colors"
           >
             Visit product <FiArrowRight className="transition-transform group-hover:translate-x-1" />
           </a>
         ) : (
           <Link
             to={ROUTES.PRODUCTS}
-            className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-emerald-200 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-bold text-white group-hover:text-blue-200 transition-colors"
           >
             View roadmap <FiArrowRight className="transition-transform group-hover:translate-x-1" />
           </Link>
@@ -125,12 +119,12 @@ function ProductCard({ product, index }) {
 function ProductConsole() {
   return (
     <div className="relative rounded-2xl border border-white/10 bg-[#060807]/90 p-4 sm:p-5 shadow-[0_30px_100px_rgba(0,0,0,0.55)] overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/70 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/70 to-transparent" />
       <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
           <span className="w-2.5 h-2.5 rounded-full bg-amber-300" />
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-300" />
+          <span className="w-2.5 h-2.5 rounded-full bg-blue-300" />
         </div>
         <span className="text-xs font-mono text-gray-500">product-ops/live</span>
       </div>
@@ -139,8 +133,10 @@ function ProductConsole() {
           <div className="flex items-center gap-3 mb-4">
             <Logo className="w-10 h-10" animated={false} />
             <div>
-              <p className="text-white font-bold leading-none">AI CAD Copilot</p>
-              <p className="text-xs text-gray-500 mt-1">Build progress</p>
+              <p className="text-white font-bold leading-none">
+                <TextScramble text="AI CAD Copilot" duration={1200} delay={300} />
+              </p>
+              <p className="text-xs text-gray-500 mt-1 font-mono">Build progress</p>
             </div>
           </div>
           <div className="space-y-3">
@@ -152,7 +148,7 @@ function ProductConsole() {
                     whileInView={{ width: `${[65, 42, 28][index]}%` }}
                     viewport={{ once: true }}
                     transition={{ duration: 1.2, delay: index * 0.15 }}
-                    className="h-full rounded-full bg-gradient-to-r from-emerald-300 to-blue-300"
+                    className="h-full rounded-full bg-gradient-to-r from-blue-300 to-blue-300"
                   />
                 </div>
                 <span className="w-28 text-xs text-gray-400">{item}</span>
@@ -174,7 +170,7 @@ function ProductConsole() {
           ))}
         </div>
       </div>
-      <div className="mt-4 rounded-xl bg-emerald-300 text-black p-4 flex items-center justify-between gap-4">
+      <div className="mt-4 rounded-xl bg-blue-300 text-black p-4 flex items-center justify-between gap-4">
         <div>
           <p className="text-sm font-extrabold">Next release lane</p>
           <p className="text-xs text-black/65">Ship the sketch-to-parametric loop end to end.</p>
@@ -189,7 +185,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#020403] text-white overflow-hidden">
       <section className="relative min-h-screen flex items-center pt-28 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(16,185,129,0.22),transparent_28%),radial-gradient(circle_at_78%_18%,rgba(59,130,246,0.18),transparent_32%),linear-gradient(180deg,rgba(2,4,3,0.15),#020403_88%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(59,130,246,0.22),transparent_28%),radial-gradient(circle_at_78%_18%,rgba(59,130,246,0.18),transparent_32%),linear-gradient(180deg,rgba(2,4,3,0.15),#020403_88%)]" />
         <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(rgba(255,255,255,0.9)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.9)_1px,transparent_1px)] bg-[size:96px_96px]" />
 
         <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
@@ -198,9 +194,9 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-300/25 bg-emerald-300/10 text-emerald-100 text-sm font-semibold mb-5"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-300/25 bg-blue-300/10 text-blue-100 text-sm font-semibold mb-5"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-blue-300 animate-pulse" />
               A product studio building AI-native tools for engineers
             </motion.div>
             <motion.p
@@ -208,7 +204,7 @@ export default function HomePage() {
               animate="visible"
               variants={{ hidden: {}, visible: { transition: { delayChildren: 0.3, staggerChildren: 0.12 } } }}
               aria-label="sketch. solve. ship."
-              className="mb-7 flex items-center gap-3 font-mono text-xs sm:text-sm uppercase tracking-[0.35em] text-emerald-200/80"
+              className="mb-7 flex items-center gap-3 font-mono text-xs sm:text-sm uppercase tracking-[0.35em] text-blue-200/80"
             >
               {['sketch.', 'solve.', 'ship.'].map((word) => (
                 <motion.span
@@ -221,7 +217,7 @@ export default function HomePage() {
               ))}
               <motion.span
                 variants={{ hidden: { opacity: 0, scaleX: 0 }, visible: { opacity: 1, scaleX: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
-                className="hidden sm:block h-px w-16 bg-gradient-to-r from-emerald-300/60 to-transparent origin-left"
+                className="hidden sm:block h-px w-16 bg-gradient-to-r from-blue-300/60 to-transparent origin-left"
                 aria-hidden="true"
               />
             </motion.p>
@@ -248,7 +244,7 @@ export default function HomePage() {
               <Magnetic strength={0.25}>
                 <Link
                   to={ROUTES.PRODUCTS}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-6 text-sm font-extrabold text-black hover:bg-emerald-100 transition-colors shadow-[0_10px_30px_-10px_rgba(255,255,255,0.35)]"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-6 text-sm font-extrabold text-black hover:bg-blue-100 transition-colors shadow-[0_10px_30px_-10px_rgba(255,255,255,0.35)]"
                 >
                   Explore the CAD Copilot <FiArrowRight />
                 </Link>
@@ -272,26 +268,11 @@ export default function HomePage() {
 
       <Marquee items={marqueeTerms} speed={45} />
 
-      <section className="border-b border-white/10 bg-white/[0.035]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4">
-          {metrics.map((metric, index) => (
-            <FadeInSection key={metric.label} delay={index * 0.08}>
-              <div className="py-8 sm:py-10 border-white/10 even:border-l lg:border-l first:border-l-0 text-center">
-                <p className="text-4xl sm:text-5xl font-display font-extrabold text-white tabular-nums">
-                  <CountUp end={metric.value} duration={2.2} enableScrollSpy scrollSpyOnce />{metric.suffix}
-                </p>
-                <p className="mt-2 text-xs sm:text-sm uppercase font-mono tracking-wider text-gray-500">{metric.label}</p>
-              </div>
-            </FadeInSection>
-          ))}
-        </div>
-      </section>
-
       <section id="next-section" className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <FadeInSection>
             <div className="max-w-3xl mb-12">
-              <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">Current focus</p>
+              <p className="text-sm font-bold uppercase text-blue-200/80 mb-3">Current focus</p>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white tracking-normal">
                 A focused roadmap. A single product commitment.
               </h2>
@@ -311,7 +292,7 @@ export default function HomePage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white/[0.025] border-y border-white/10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-12">
           <FadeInSection direction="right">
-            <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">How we build</p>
+            <p className="text-sm font-bold uppercase text-blue-200/80 mb-3">How we build</p>
             <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
               Engineering-first. Deterministic where it counts.
             </h2>
@@ -323,16 +304,21 @@ export default function HomePage() {
             {capabilities.map((capability, index) => (
               <FadeInSection key={capability.title} delay={index * 0.08}>
                 <TiltCard intensity={5} className="h-full">
-                  <div className="relative h-full rounded-2xl border border-white/10 bg-[#070a09] p-6 overflow-hidden group">
-                    <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(circle_at_var(--x,50%)_var(--y,50%),rgba(16,185,129,0.15),transparent_60%)]" />
-                    <div className="relative">
-                      <div className="w-11 h-11 rounded-xl bg-emerald-300/12 text-emerald-200 border border-emerald-300/20 flex items-center justify-center text-xl mb-5">
-                        {capability.icon}
+                  <Spotlight className="h-full">
+                    <div className="relative h-full rounded-2xl border border-white/10 bg-[#070a09] p-6 overflow-hidden group hover:border-blue-300/30 transition-colors">
+                      <div
+                        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        style={{ background: 'radial-gradient(400px circle at var(--sx) var(--sy), rgba(59,130,246,0.18), transparent 55%)' }}
+                      />
+                      <div className="relative">
+                        <div className="w-11 h-11 rounded-xl bg-blue-300/12 text-blue-200 border border-blue-300/20 flex items-center justify-center text-xl mb-5">
+                          {capability.icon}
+                        </div>
+                        <h3 className="text-lg font-bold text-white mb-3">{capability.title}</h3>
+                        <p className="text-sm text-gray-400 leading-relaxed">{capability.text}</p>
                       </div>
-                      <h3 className="text-lg font-bold text-white mb-3">{capability.title}</h3>
-                      <p className="text-sm text-gray-400 leading-relaxed">{capability.text}</p>
                     </div>
-                  </div>
+                  </Spotlight>
                 </TiltCard>
               </FadeInSection>
             ))}
@@ -345,39 +331,52 @@ export default function HomePage() {
           <FadeInSection>
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
               <div className="max-w-3xl">
-                <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">Operating model</p>
+                <p className="text-sm font-bold uppercase text-blue-200/80 mb-3">Operating model</p>
                 <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
                   From engineer workflows to production surfaces — without losing the thread.
                 </h2>
               </div>
-              <Link to={ROUTES.ABOUT} className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-emerald-200">
+              <Link to={ROUTES.ABOUT} className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-blue-200">
                 Learn about us <FiArrowRight />
               </Link>
             </div>
           </FadeInSection>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {process.map(([step, title, text], index) => (
-              <FadeInSection key={step} delay={index * 0.06}>
-                <div className="relative h-full rounded-2xl border border-white/10 bg-white/[0.04] p-6 overflow-hidden">
-                  <span className="text-6xl font-display font-black text-white/[0.055] absolute top-4 right-5">{step}</span>
-                  <div className="relative">
-                    <div className="w-10 h-10 rounded-lg bg-white text-black flex items-center justify-center font-extrabold mb-8">
-                      {step}
+              <motion.div
+                key={step}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -6, transition: { duration: 0.25, ease: 'easeOut' } }}
+              >
+                <Spotlight className="h-full">
+                  <div className="relative h-full rounded-2xl border border-white/10 bg-white/[0.04] p-6 overflow-hidden group hover:border-blue-300/25 transition-colors">
+                    <div
+                      className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{ background: 'radial-gradient(360px circle at var(--sx) var(--sy), rgba(59,130,246,0.18), transparent 55%)' }}
+                    />
+                    <span className="text-6xl font-display font-black text-white/[0.055] absolute top-4 right-5">{step}</span>
+                    <div className="relative">
+                      <div className="w-10 h-10 rounded-lg bg-white text-black flex items-center justify-center font-extrabold mb-8">
+                        {step}
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+                      <p className="text-sm text-gray-400 leading-relaxed">{text}</p>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-                    <p className="text-sm text-gray-400 leading-relaxed">{text}</p>
                   </div>
-                </div>
-              </FadeInSection>
+                </Spotlight>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#eafdf5] text-[#07110d]">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#e8f2fd] text-[#07110d]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-12 items-center">
           <FadeInSection direction="right">
-            <p className="text-sm font-extrabold uppercase text-emerald-700 mb-3">Why the CAD Copilot</p>
+            <p className="text-sm font-extrabold uppercase text-blue-700 mb-3">Why the CAD Copilot</p>
             <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
               An AI copilot that respects the engineer’s workflow.
             </h2>
@@ -398,9 +397,9 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className="flex gap-3 rounded-xl bg-white/70 border border-emerald-900/10 p-4 hover:bg-white hover:border-emerald-700/30 hover:-translate-y-0.5 transition-all"
+                className="flex gap-3 rounded-xl bg-white/70 border border-blue-900/10 p-4 hover:bg-white hover:border-blue-700/30 hover:-translate-y-0.5 transition-all"
               >
-                <FiCheckCircle className="text-emerald-700 text-xl shrink-0 mt-0.5" />
+                <FiCheckCircle className="text-blue-700 text-xl shrink-0 mt-0.5" />
                 <p className="text-sm font-semibold leading-relaxed">{item}</p>
               </motion.div>
             ))}
@@ -421,7 +420,7 @@ export default function HomePage() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
             <Magnetic strength={0.2}>
-              <Link to={ROUTES.CONTACT} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-6 text-sm font-extrabold text-black hover:bg-emerald-100 transition-colors shadow-[0_10px_30px_-10px_rgba(255,255,255,0.35)]">
+              <Link to={ROUTES.CONTACT} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-6 text-sm font-extrabold text-black hover:bg-blue-100 transition-colors shadow-[0_10px_30px_-10px_rgba(255,255,255,0.35)]">
                 Contact Bluecoderhub <FiArrowRight />
               </Link>
             </Magnetic>

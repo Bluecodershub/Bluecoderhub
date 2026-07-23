@@ -14,7 +14,7 @@ export default function Marquee({ items, speed = 40 }) {
                         key={`${item}-${index}`}
                         className="text-xs font-mono uppercase tracking-[0.2em] text-gray-500 flex items-center gap-3"
                     >
-                        <span className="text-emerald-300/60">◇</span>
+                        <span className="text-blue-300/60">◇</span>
                         {item}
                     </span>
                 ))}

@@ -7,7 +7,6 @@ export const APP_NAME = 'Bluecoderhub';
 export const COMPANY_NAME = 'Bluecoderhub PVT LTD';
 export const COMPANY_TAGLINE = 'A product studio building AI-native tools for engineers.';
 export const COMPANY_EMAIL = 'connect@bluecoderhub.com';
-export const COMPANY_PHONE = '+91 80 1234 5678';
 export const COMPANY_LOCATION = 'Chennai, Tamil Nadu, India';
 export const COMPANY_FOUNDED = 2022;
 

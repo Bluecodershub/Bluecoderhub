@@ -7,3 +7,7 @@ export { default as ScrollProgress } from './ScrollProgress.jsx';
 export { default as TiltCard } from './TiltCard.jsx';
 export { default as Marquee } from './Marquee.jsx';
 export { default as AnimatedHeading } from './AnimatedHeading.jsx';
+export { default as Spotlight } from './Spotlight.jsx';
+export { default as TextScramble } from './TextScramble.jsx';
+export { default as GradientBorder } from './GradientBorder.jsx';
+export { default as ParallaxSection } from './ParallaxSection.jsx';

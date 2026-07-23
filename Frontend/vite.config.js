@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'animation-vendor': ['framer-motion'],
-          'ui-vendor': ['react-icons', 'react-type-animation', 'react-countup'],
+          'ui-vendor': ['react-icons', 'react-markdown'],
         },
       },
     },

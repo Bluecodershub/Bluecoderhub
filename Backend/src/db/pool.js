@@ -19,44 +19,48 @@ if (useMock) {
 }
 
 // Simulated in-memory database tables
+// Sample content for local development when DATABASE_URL is absent. The
+// frontend also carries a full research library at Frontend/src/data/blog.json
+// as a UI fallback; this array only exists so the API surface returns
+// something realistic during local `npm run dev`.
 const mockDb = {
   users: [],
   blog_posts: [
     {
       id: "b1b1b1b1-1111-1111-1111-111111111111",
-      slug: "introduction-to-nextjs15",
-      title: "Introduction to Next.js 15",
-      category: "Frontend Development",
-      author: "Jane Doe",
-      excerpt: "Explore the new features of Next.js 15, including Server Actions stability, enhanced caching strategies, and React 19 integration.",
-      content: "Next.js 15 introduces a variety of new features aimed at improving performance and developer experience. React 19 integration brings Server Components and Server Actions to stable production. In this guide, we dive deep into setup, dynamic APIs, and optimizing caching.",
-      tags: ["nextjs", "react", "frontend"],
+      slug: "sketch-constraints-as-a-formal-language",
+      title: "Sketch Constraints Are a Formal Language. B-Rep Kernels Set the Ceiling.",
+      category: "AI CAD",
+      author: "Bluecoderhub Research",
+      excerpt: "The reason text-to-CAD keeps hitting a wall is not the language model. It is that the target representation is a program in a formal language whose type checker will reject you silently.",
+      content: "Sample content — the Frontend fallback library contains the full text. Seed the real database via `npm run db:seed-blogs` to replace this stub.",
+      tags: ["ai-cad", "b-rep", "sketch-constraints"],
       published: true,
       created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
       updated_at: new Date(Date.now() - 3600000 * 24).toISOString()
     },
     {
       id: "b2b2b2b2-2222-2222-2222-222222222222",
-      slug: "vite-micro-frontends-guide",
-      title: "Building Vite Micro-Frontends",
-      category: "Architecture",
-      author: "John Smith",
-      excerpt: "Learn how to build a scalable micro-frontend architecture using Vite, Module Federation, and React.",
-      content: "Vite is an exceptionally fast build tool. Module federation in Vite has made it simple to split large application architectures into isolated modules that load dynamically at runtime. This post details configurations, styles scoping, and cross-framework state sharing.",
-      tags: ["vite", "micro-frontends", "architecture"],
+      slug: "the-manufacturability-oracle",
+      title: "The Manufacturability Oracle: What Language Models Cannot Learn From Drawings",
+      category: "AI CAD",
+      author: "Bluecoderhub Research",
+      excerpt: "A drawing captures geometry. Manufacturability lives in the negative space of the drawing — in what the drawing assumes about tool access, fixturing, and material handling.",
+      content: "Sample content — the Frontend fallback library contains the full text. Seed the real database via `npm run db:seed-blogs` to replace this stub.",
+      tags: ["ai-cad", "dfm", "manufacturing"],
       published: true,
       created_at: new Date(Date.now() - 3600000 * 12).toISOString(),
       updated_at: new Date(Date.now() - 3600000 * 12).toISOString()
     },
     {
       id: "b3b3b3b3-3333-3333-3333-333333333333",
-      slug: "securing-node-express-apis",
-      title: "Securing Node & Express REST APIs",
-      category: "Security",
-      author: "Alice Johnson",
-      excerpt: "Top security practices for building production Express APIs, including Helmet, rate limiting, and inputs validation.",
-      content: "Security is non-negotiable for enterprise APIs. Express.js comes with lightweight defaults, but developers must configure secure HTTP headers using Helmet, restrict access using CORS origins, limit brute-force threats using rate-limiting systems, and enforce absolute payload safety with schemas.",
-      tags: ["node", "express", "security"],
+      slug: "reasoning-models-symbolic-neural-divide",
+      title: "Reasoning Models and the Return of the Symbolic-Neural Divide",
+      category: "AI Foundations",
+      author: "Bluecoderhub Research",
+      excerpt: "The scaling era suggested symbolic AI was over. Reasoning models revive the debate — and the right architecture for engineering-grade AI is the hybrid the field has been avoiding.",
+      content: "Sample content — the Frontend fallback library contains the full text. Seed the real database via `npm run db:seed-blogs` to replace this stub.",
+      tags: ["reasoning-models", "symbolic-neural", "engineering-ai"],
       published: true,
       created_at: new Date(Date.now() - 3600000 * 2).toISOString(),
       updated_at: new Date(Date.now() - 3600000 * 2).toISOString()

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { sanitizeURL } from '../../security/sanitize';
 import { api } from '../../utils/api';
@@ -16,15 +17,19 @@ const footerLinks = {
 import Logo from './Logo';
 
 export default function Footer() {
+    const [status, setStatus] = useState({ type: '', message: '' });
+
     const handleSubscribe = async (event) => {
         event.preventDefault();
-        const form = new FormData(event.currentTarget);
+        const form = event.currentTarget;
+        const emailValue = new FormData(form).get('email');
+        setStatus({ type: 'loading', message: '' });
         try {
-            await api.subscribe(String(form.get('email') || ''), 'footer');
-            event.currentTarget.reset();
-            alert('Subscribed.');
+            await api.subscribe(String(emailValue || ''), 'footer');
+            form.reset();
+            setStatus({ type: 'success', message: 'Subscribed. We\'ll be in touch.' });
         } catch (err) {
-            alert(err.message || 'Subscription failed.');
+            setStatus({ type: 'error', message: err.message || 'Subscription failed.' });
         }
     };
 
@@ -86,26 +91,39 @@ export default function Footer() {
                 </div>
 
                 {/* Newsletter */}
-                <div className="glassmorphism rounded-2xl p-6 mb-12 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-white/5 shadow-[0_0_40px_rgba(255,255,255,0.05)]">
-                    <div>
-                        <h3 className="font-display font-semibold text-white mb-1">Stay in the loop</h3>
-                        <p className="text-gray-400 text-sm">Get the latest updates on our products and tech insights.</p>
+                <div className="glassmorphism rounded-2xl p-6 mb-12 border border-white/10 bg-white/5 shadow-[0_0_40px_rgba(255,255,255,0.05)]">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h3 className="font-display font-semibold text-white mb-1">Stay in the loop</h3>
+                            <p className="text-gray-400 text-sm">Occasional research notes and product updates from Bluecoderhub.</p>
+                        </div>
+                        <form className="flex gap-2 w-full sm:w-auto" onSubmit={handleSubscribe} noValidate>
+                            <input
+                                name="email"
+                                type="email"
+                                placeholder="your@email.com"
+                                required
+                                aria-label="Email address"
+                                className="flex-1 sm:w-64 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all"
+                            />
+                            <button
+                                type="submit"
+                                disabled={status.type === 'loading'}
+                                className="px-5 py-2.5 rounded-xl text-sm font-semibold text-black bg-white whitespace-nowrap hover:bg-gray-100 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] disabled:opacity-60 disabled:cursor-not-allowed"
+                            >
+                                {status.type === 'loading' ? 'Subscribing…' : 'Subscribe'}
+                            </button>
+                        </form>
                     </div>
-                    <form className="flex gap-2 w-full sm:w-auto" onSubmit={handleSubscribe}>
-                        <input
-                            name="email"
-                            type="email"
-                            placeholder="your@email.com"
-                            required
-                            className="flex-1 sm:w-64 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all"
-                        />
-                        <button
-                            type="submit"
-                            className="px-5 py-2.5 rounded-xl text-sm font-semibold text-black bg-white whitespace-nowrap hover:bg-gray-100 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                    {status.message && (
+                        <p
+                            role="status"
+                            aria-live="polite"
+                            className={`mt-4 text-xs font-medium ${status.type === 'success' ? 'text-blue-300' : 'text-red-300'}`}
                         >
-                            Subscribe
-                        </button>
-                    </form>
+                            {status.message}
+                        </p>
+                    )}
                 </div>
 
                 {/* Bottom bar */}

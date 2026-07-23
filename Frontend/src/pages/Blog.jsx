@@ -1,6 +1,7 @@
 import { useEffect, useState, memo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 import FadeInSection from '../components/animations/FadeInSection';
 import { api } from '../utils/api';
 import blogData from '../data/blog.json';
@@ -14,65 +15,78 @@ const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/og-image.png`;
 const SITE_DEFAULT_TITLE = 'Bluecoderhub — AI CAD Copilot for engineering design';
 const SITE_DEFAULT_DESCRIPTION = 'A product studio building AI-native tools for engineers. Our first product is the AI CAD Copilot — natural-language intent, parametric geometry, and design-rule checks inside your modeler.';
 
-function setMeta(selector, attr, value) {
+// SEO tag manager — tracks every element it attaches so cleanup can remove them
+// precisely instead of leaking stale article:* / og:* / twitter:* tags into
+// non-article pages after unmount.
+function attachManagedMeta(managed, selector, content) {
     let el = document.head.querySelector(selector);
+    let created = false;
     if (!el) {
         el = document.createElement('meta');
-        const [name, val] = selector.replace(/^meta\[/, '').replace(/\]$/, '').split('=');
-        el.setAttribute(name, val.replace(/["']/g, ''));
+        const match = selector.match(/^meta\[(name|property)="([^"]+)"\]$/);
+        if (match) {
+            el.setAttribute(match[1], match[2]);
+        }
         document.head.appendChild(el);
+        created = true;
     }
-    el.setAttribute('content', value);
-    return el;
+    const previous = el.getAttribute('content');
+    el.setAttribute('content', content);
+    managed.push({ el, previous, created });
 }
 
-function setLink(rel, href) {
+function attachManagedLink(managed, rel, href) {
     let el = document.head.querySelector(`link[rel="${rel}"]`);
+    let created = false;
     if (!el) {
         el = document.createElement('link');
         el.setAttribute('rel', rel);
         document.head.appendChild(el);
+        created = true;
     }
+    const previous = el.getAttribute('href');
     el.setAttribute('href', href);
-    return el;
+    managed.push({ el, previous, created });
 }
 
 function usePostSEO(post) {
     useEffect(() => {
         if (!post) return undefined;
+        const managed = [];
         const prevTitle = document.title;
         const url = `${SITE_ORIGIN}/blog/${post.slug || post.id}`;
         const title = post.metaTitle || `${post.title} | Bluecoderhub`;
         const description = post.metaDescription || post.excerpt || SITE_DEFAULT_DESCRIPTION;
         const keywords = post.keywords || (Array.isArray(post.tags) ? post.tags.join(', ') : '');
         const ogImage = post.ogImage || DEFAULT_OG_IMAGE;
+        const authorName = post.author || 'Bluecoderhub Research';
 
         document.title = title;
-        setMeta('meta[name="description"]', 'content', description);
-        if (keywords) setMeta('meta[name="keywords"]', 'content', keywords);
-        setMeta('meta[name="author"]', 'content', post.author || 'Bluecoderhub Research');
-        setMeta('meta[name="robots"]', 'content', 'index, follow, max-image-preview:large');
-        setLink('canonical', url);
+        attachManagedMeta(managed, 'meta[name="description"]', description);
+        if (keywords) attachManagedMeta(managed, 'meta[name="keywords"]', keywords);
+        attachManagedMeta(managed, 'meta[name="author"]', authorName);
+        attachManagedMeta(managed, 'meta[name="robots"]', 'index, follow, max-image-preview:large');
+        attachManagedLink(managed, 'canonical', url);
 
-        setMeta('meta[property="og:type"]', 'content', 'article');
-        setMeta('meta[property="og:title"]', 'content', title);
-        setMeta('meta[property="og:description"]', 'content', description);
-        setMeta('meta[property="og:url"]', 'content', url);
-        setMeta('meta[property="og:image"]', 'content', ogImage);
-        setMeta('meta[property="article:published_time"]', 'content', post.created_at || '');
-        setMeta('meta[property="article:author"]', 'content', post.author || 'Bluecoderhub Research');
-        setMeta('meta[property="article:section"]', 'content', post.category || '');
-        setMeta('meta[name="twitter:card"]', 'content', 'summary_large_image');
-        setMeta('meta[name="twitter:title"]', 'content', title);
-        setMeta('meta[name="twitter:description"]', 'content', description);
-        setMeta('meta[name="twitter:image"]', 'content', ogImage);
+        attachManagedMeta(managed, 'meta[property="og:type"]', 'article');
+        attachManagedMeta(managed, 'meta[property="og:title"]', title);
+        attachManagedMeta(managed, 'meta[property="og:description"]', description);
+        attachManagedMeta(managed, 'meta[property="og:url"]', url);
+        attachManagedMeta(managed, 'meta[property="og:image"]', ogImage);
+        attachManagedMeta(managed, 'meta[property="article:published_time"]', post.created_at || '');
+        attachManagedMeta(managed, 'meta[property="article:author"]', authorName);
+        attachManagedMeta(managed, 'meta[property="article:section"]', post.category || '');
+        attachManagedMeta(managed, 'meta[name="twitter:card"]', 'summary_large_image');
+        attachManagedMeta(managed, 'meta[name="twitter:title"]', title);
+        attachManagedMeta(managed, 'meta[name="twitter:description"]', description);
+        attachManagedMeta(managed, 'meta[name="twitter:image"]', ogImage);
 
         const jsonLd = {
             '@context': 'https://schema.org',
             '@type': 'Article',
             headline: post.title,
             description,
-            author: { '@type': 'Organization', name: post.author || 'Bluecoderhub Research' },
+            author: { '@type': 'Person', name: authorName },
             publisher: {
                 '@type': 'Organization',
                 name: 'Bluecoderhub PVT LTD',
@@ -93,49 +107,82 @@ function usePostSEO(post) {
 
         return () => {
             document.title = prevTitle || SITE_DEFAULT_TITLE;
-            setMeta('meta[name="description"]', 'content', SITE_DEFAULT_DESCRIPTION);
-            setLink('canonical', SITE_ORIGIN);
+            managed.forEach(({ el, previous, created }) => {
+                if (created) {
+                    el.remove();
+                } else if (previous !== null) {
+                    const attr = el.tagName === 'LINK' ? 'href' : 'content';
+                    el.setAttribute(attr, previous);
+                }
+            });
             script.remove();
         };
     }, [post]);
 }
 
-/**
- * A simple "Mini-Markdown" renderer to handle headers and paragraphs
- * without needing an external dependency or bypassing security sanitizers.
- */
+// Blog content is authored by admins and stored server-side; react-markdown
+// escapes HTML by default and we do not enable rehype-raw, so this stays safe
+// against injected script/style content while giving us full CommonMark support.
+const markdownComponents = {
+    h1: ({ node, ...props }) => (
+        <h1 className="text-5xl font-display font-bold text-white mt-16 mb-8 tracking-tight" {...props} />
+    ),
+    h2: ({ node, ...props }) => (
+        <h2 className="text-4xl font-display font-bold text-white mt-16 mb-8 tracking-tight" {...props} />
+    ),
+    h3: ({ node, ...props }) => (
+        <h3 className="text-3xl font-display font-bold text-white mt-12 mb-6 tracking-tight" {...props} />
+    ),
+    h4: ({ node, ...props }) => (
+        <h4 className="text-2xl font-display font-semibold text-white mt-10 mb-4" {...props} />
+    ),
+    p: ({ node, ...props }) => (
+        <p className="text-gray-300 leading-relaxed font-light text-xl mb-6" {...props} />
+    ),
+    a: ({ node, ...props }) => (
+        <a
+            className="text-blue-300 hover:text-blue-200 underline underline-offset-4 decoration-blue-500/40 hover:decoration-blue-400 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+            {...props}
+        />
+    ),
+    ul: ({ node, ...props }) => (
+        <ul className="text-gray-300 leading-relaxed font-light text-xl mb-6 pl-6 space-y-2 list-disc marker:text-blue-400/60" {...props} />
+    ),
+    ol: ({ node, ...props }) => (
+        <ol className="text-gray-300 leading-relaxed font-light text-xl mb-6 pl-6 space-y-2 list-decimal marker:text-blue-400/60" {...props} />
+    ),
+    li: ({ node, ...props }) => <li className="pl-2" {...props} />,
+    blockquote: ({ node, ...props }) => (
+        <blockquote
+            className="border-l-2 border-blue-400/60 pl-6 my-8 italic text-gray-200/90 text-xl leading-relaxed"
+            {...props}
+        />
+    ),
+    code: ({ node, inline, className, children, ...props }) => (
+        inline ? (
+            <code className="px-1.5 py-0.5 rounded bg-white/10 text-blue-100 font-mono text-[0.9em]" {...props}>
+                {children}
+            </code>
+        ) : (
+            <code className="block p-4 rounded-xl bg-black/60 border border-white/10 text-blue-100 font-mono text-sm overflow-x-auto" {...props}>
+                {children}
+            </code>
+        )
+    ),
+    pre: ({ node, ...props }) => <pre className="my-6" {...props} />,
+    hr: () => <hr className="border-white/10 my-12" />,
+    strong: ({ node, ...props }) => <strong className="text-white font-semibold" {...props} />,
+    em: ({ node, ...props }) => <em className="italic text-gray-100" {...props} />,
+};
+
 const BlogContentRenderer = ({ content }) => {
     if (!content) return null;
-    
-    // Split by double newline for paragraphs
-    const blocks = content.split('\n\n');
-    
     return (
-        <div className="space-y-8">
-            {blocks.map((block, i) => {
-                // Check for headers (e.g., ### Header)
-                if (block.startsWith('### ')) {
-                    return (
-                        <h3 key={i} className="text-3xl font-display font-bold text-white mt-12 mb-6">
-                            {block.replace('### ', '')}
-                        </h3>
-                    );
-                }
-                if (block.startsWith('## ')) {
-                    return (
-                        <h2 key={i} className="text-4xl font-display font-bold text-white mt-16 mb-8">
-                            {block.replace('## ', '')}
-                        </h2>
-                    );
-                }
-                // Regular paragraph
-                return (
-                    <p key={i} className="text-gray-300 leading-relaxed font-light text-xl">
-                        {block}
-                    </p>
-                );
-            })}
-        </div>
+        <article className="prose-invert">
+            <ReactMarkdown components={markdownComponents}>{content}</ReactMarkdown>
+        </article>
     );
 };
 

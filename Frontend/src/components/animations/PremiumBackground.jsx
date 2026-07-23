@@ -1,21 +1,37 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function PremiumBackground() {
     const canvasRef = useRef(null);
+    const [reduceMotion, setReduceMotion] = useState(false);
 
     useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const apply = () => setReduceMotion(mediaQuery.matches);
+        apply();
+        mediaQuery.addEventListener('change', apply);
+        return () => mediaQuery.removeEventListener('change', apply);
+    }, []);
+
+    useEffect(() => {
+        if (reduceMotion) return undefined;
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (!canvas) return undefined;
         const ctx = canvas.getContext('2d');
         let animationFrameId;
+        let running = true;
         let mouse = { x: -1000, y: -1000 };
 
         const handleMouseMove = (e) => {
             mouse = { x: e.clientX, y: e.clientY };
         };
+        const handleVisibility = () => {
+            running = !document.hidden;
+            if (running) animationFrameId = requestAnimationFrame(animate);
+        };
 
         window.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('visibilitychange', handleVisibility);
 
         const resize = () => {
             canvas.width = window.innerWidth;
@@ -82,7 +98,8 @@ export default function PremiumBackground() {
         const particleCount = isMobile ? 30 : 80;
         const particlesArray = Array.from({ length: particleCount }, () => new Particle());
 
-        const animate = () => {
+        function animate() {
+            if (!running) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Draw slow moving subtle grid
@@ -118,19 +135,34 @@ export default function PremiumBackground() {
             }
 
             animationFrameId = requestAnimationFrame(animate);
-        };
+        }
 
         animate();
 
         return () => {
+            running = false;
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('resize', resize);
+            document.removeEventListener('visibilitychange', handleVisibility);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [reduceMotion]);
+
+    // Static background when the user prefers reduced motion — no canvas RAF, no floats.
+    if (reduceMotion) {
+        return (
+            <div
+                className="fixed inset-0 z-[-1] bg-[#050505] overflow-hidden pointer-events-none"
+                aria-hidden="true"
+            >
+                <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-600/10 blur-[120px] rounded-full" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-600/5 blur-[100px] rounded-full" />
+            </div>
+        );
+    }
 
     return (
-        <div className="fixed inset-0 z-[-1] bg-[#050505] overflow-hidden pointer-events-none">
+        <div className="fixed inset-0 z-[-1] bg-[#050505] overflow-hidden pointer-events-none" aria-hidden="true">
             {/* Animated Mesh Gradients */}
             <motion.div 
                 animate={{ 

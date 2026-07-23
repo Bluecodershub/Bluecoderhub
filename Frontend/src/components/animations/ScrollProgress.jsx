@@ -6,7 +6,7 @@ export default function ScrollProgress() {
     return (
         <motion.div
             style={{ scaleX }}
-            className="fixed top-0 left-0 right-0 h-[2px] origin-left z-[60] bg-gradient-to-r from-emerald-300 via-blue-300 to-emerald-300"
+            className="fixed top-0 left-0 right-0 h-[2px] origin-left z-[60] bg-gradient-to-r from-blue-400 via-blue-300 to-blue-400"
             aria-hidden="true"
         />
     );
