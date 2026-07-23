@@ -4,58 +4,55 @@ import {
   FiArrowRight,
   FiCheckCircle,
   FiCpu,
-  FiDatabase,
+  FiCrosshair,
   FiLayers,
   FiShield,
   FiTarget,
-  FiTrendingUp,
   FiZap,
 } from 'react-icons/fi';
-import { MdArchitecture, MdSchool, MdAccountBalance } from 'react-icons/md';
+import { MdArchitecture } from 'react-icons/md';
 import FadeInSection from '../components/animations/FadeInSection';
 import Logo from '../components/common/Logo';
 import products from '../data/products.json';
 import { ROUTES } from '../config/routes';
 
 const metrics = [
-  { value: '3', label: 'product lines' },
-  { value: '40+', label: 'platform capabilities' },
-  { value: '24/7', label: 'digital access' },
+  { value: '1', label: 'shipping product bet' },
+  { value: 'CAD', label: 'first vertical' },
+  { value: 'IN', label: 'built from Chennai' },
   { value: '100%', label: 'builder-owned' },
 ];
 
 const capabilities = [
   {
     icon: <FiCpu />,
-    title: 'AI Product Engineering',
-    text: 'Practical AI workflows, recommendation engines, copilots, and automation designed around real user journeys.',
+    title: 'Engineering-native AI',
+    text: 'Copilots that understand parametric intent, sketch constraints, and DFM rules — not generic chat wrapped around a modeler.',
   },
   {
-    icon: <FiDatabase />,
-    title: 'Data-Ready Platforms',
-    text: 'Structured backends, dashboards, analytics loops, and reliable operational surfaces for teams that need clarity.',
+    icon: <FiCrosshair />,
+    title: 'Deterministic where it matters',
+    text: 'LLM reasoning for intent, symbolic solvers for geometry. The output engineers ship has to be exact, not plausible.',
   },
   {
     icon: <FiShield />,
-    title: 'Secure Foundations',
-    text: 'Authentication, permissions, validation, audit-ready flows, and production-minded delivery from the first build.',
+    title: 'Secure foundations',
+    text: 'Auth, permissions, validation, audit-ready flows, and production-minded delivery from the first build.',
   },
   {
     icon: <FiLayers />,
-    title: 'Product Ecosystems',
-    text: 'Landing pages, portals, admin tools, learning systems, and SaaS interfaces that work together cleanly.',
+    title: 'Studio-shaped delivery',
+    text: 'Small team, tight loops, one product bet at a time. We ship the surface engineers actually reach for, not a roadmap of demos.',
   },
 ];
 
 const process = [
-  ['01', 'Map the opportunity', 'We turn loose ideas into a clear product surface, user journey, and measurable outcome.'],
-  ['02', 'Build the core loop', 'We prioritize the workflow users repeat most, then wire it to real data and useful feedback.'],
-  ['03', 'Polish and scale', 'We harden performance, accessibility, security, and operations before pushing the next layer.'],
+  ['01', 'Map the workflow', 'We start from the CAD user’s day: what they sketch, what they redraw, where they lose time.'],
+  ['02', 'Build the core loop', 'We prioritize the intent-to-geometry loop first, then wire it to real modelers and design-rule checks.'],
+  ['03', 'Harden for shipping', 'We tighten performance, correctness guarantees, and integration surface before opening early access.'],
 ];
 
 const iconFor = {
-  bluelearnerhub: <MdSchool />,
-  financehub: <MdAccountBalance />,
   'cad-copilot': <MdArchitecture />,
 };
 
@@ -126,33 +123,33 @@ function ProductConsole() {
           <div className="flex items-center gap-3 mb-4">
             <Logo className="w-10 h-10" animated={false} />
             <div>
-              <p className="text-white font-bold leading-none">Bluecoderhub</p>
-              <p className="text-xs text-gray-500 mt-1">Operating system</p>
+              <p className="text-white font-bold leading-none">AI CAD Copilot</p>
+              <p className="text-xs text-gray-500 mt-1">Build progress</p>
             </div>
           </div>
           <div className="space-y-3">
-            {['Learning engine', 'Finance kernel', 'CAD copilot'].map((item, index) => (
+            {['Sketch parser', 'Constraint solver', 'Rule checker'].map((item, index) => (
               <div key={item} className="flex items-center gap-3">
                 <div className="h-2 flex-1 rounded-full bg-white/10 overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
-                    whileInView={{ width: `${[92, 48, 31][index]}%` }}
+                    whileInView={{ width: `${[65, 42, 28][index]}%` }}
                     viewport={{ once: true }}
                     transition={{ duration: 1.2, delay: index * 0.15 }}
                     className="h-full rounded-full bg-gradient-to-r from-emerald-300 to-blue-300"
                   />
                 </div>
-                <span className="w-24 text-xs text-gray-400">{item}</span>
+                <span className="w-28 text-xs text-gray-400">{item}</span>
               </div>
             ))}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-3">
           {[
-            ['Users', 'active'],
-            ['APIs', 'stable'],
-            ['Design', 'shipping'],
-            ['Security', 'hardened'],
+            ['Intent', 'parsed'],
+            ['Geometry', 'parametric'],
+            ['Solver', 'symbolic'],
+            ['Delivery', 'private beta'],
           ].map(([label, value]) => (
             <div key={label} className="rounded-xl bg-white/[0.045] border border-white/10 p-4">
               <p className="text-xs text-gray-500 mb-2">{label}</p>
@@ -164,7 +161,7 @@ function ProductConsole() {
       <div className="mt-4 rounded-xl bg-emerald-300 text-black p-4 flex items-center justify-between gap-4">
         <div>
           <p className="text-sm font-extrabold">Next release lane</p>
-          <p className="text-xs text-black/65">Ship the highest-signal user flow first.</p>
+          <p className="text-xs text-black/65">Ship the sketch-to-parametric loop end to end.</p>
         </div>
         <FiZap className="text-2xl shrink-0" />
       </div>
@@ -183,26 +180,26 @@ export default function HomePage() {
           <FadeInSection>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-300/25 bg-emerald-300/10 text-emerald-100 text-sm font-semibold mb-7">
               <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
-              Building product ecosystems from India for the world
+              A product studio building AI-native tools for engineers
             </div>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-extrabold leading-[0.95] tracking-normal text-white max-w-4xl">
-              Products, platforms, and AI systems that feel ready on day one.
+              Engineering-grade AI that sits inside the tools you already use.
             </h1>
             <p className="mt-7 max-w-2xl text-lg sm:text-xl text-gray-300 leading-relaxed">
-              Bluecoderhub designs and builds digital products across learning, finance, and engineering. We turn ambitious ideas into polished, usable software with the technical depth to keep scaling.
+              Bluecoderhub is a small product studio from Chennai. Our first shipping bet is an AI CAD Copilot that turns natural-language intent into parametric geometry, sketch suggestions, and design-rule checks — built to sit alongside the modelers engineers already use.
             </p>
             <div className="mt-9 flex flex-col sm:flex-row gap-3">
               <Link
                 to={ROUTES.PRODUCTS}
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-extrabold text-black hover:bg-emerald-100 transition-colors"
               >
-                Explore Products <FiArrowRight />
+                See the CAD Copilot <FiArrowRight />
               </Link>
               <Link
                 to={ROUTES.CONTACT}
                 className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-bold text-white hover:bg-white/10 transition-colors"
               >
-                Start a Conversation
+                Request early access
               </Link>
             </div>
           </FadeInSection>
@@ -228,10 +225,13 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <FadeInSection>
             <div className="max-w-3xl mb-12">
-              <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">Product ecosystem</p>
+              <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">Current bet</p>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white tracking-normal">
-                One company, multiple high-leverage product bets.
+                One studio, one shipping product bet.
               </h2>
+              <p className="mt-5 text-gray-400 leading-relaxed">
+                We keep the studio deliberately small and the roadmap deliberately short. The AI CAD Copilot is where our attention lives until it earns the right to sit next to a working engineer’s modeler.
+              </p>
             </div>
           </FadeInSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -245,12 +245,12 @@ export default function HomePage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white/[0.025] border-y border-white/10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-12">
           <FadeInSection direction="right">
-            <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">What we do</p>
+            <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">How we build</p>
             <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
-              Clean execution across product, design, and engineering.
+              Engineering-first, deterministic where it matters.
             </h2>
             <p className="mt-5 text-gray-400 leading-relaxed">
-              The page should feel like the company: modern, useful, and serious about shipping. Every surface now points users toward products, careers, or a conversation.
+              Generative models are useful for intent. They are not useful for whether a wall thickness meets spec. We split the two so the copilot can talk like a person and produce output an engineer can actually ship.
             </p>
           </FadeInSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -276,7 +276,7 @@ export default function HomePage() {
               <div className="max-w-3xl">
                 <p className="text-sm font-bold uppercase text-emerald-200/80 mb-3">Operating model</p>
                 <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
-                  From idea to usable software without losing the thread.
+                  From engineer’s workflow to shipping surface without losing the thread.
                 </h2>
               </div>
               <Link to={ROUTES.ABOUT} className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-emerald-200">
@@ -306,20 +306,20 @@ export default function HomePage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#eafdf5] text-[#07110d]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-12 items-center">
           <FadeInSection direction="right">
-            <p className="text-sm font-extrabold uppercase text-emerald-700 mb-3">Why it feels better</p>
+            <p className="text-sm font-extrabold uppercase text-emerald-700 mb-3">Why the CAD Copilot</p>
             <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
-              A sharper homepage with fewer dead ends.
+              An AI copilot that respects the engineer’s modeler.
             </h2>
             <p className="mt-5 text-slate-700 leading-relaxed">
-              The landing page now gives visitors a clear first impression, shows what Bluecoderhub builds, and makes the next action obvious from every major section.
+              CAD is a workflow, not a chat window. The copilot lives inside the tool, understands the sketch, and hands back geometry the engineer can constrain, tolerance, and manufacture.
             </p>
           </FadeInSection>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
-              'Real product cards tied to current company data',
-              'Responsive layout for mobile, tablet, and desktop',
-              'Stable rendering without fragile WebGPU dependencies',
-              'Navigation paths for contact and legal pages',
+              'Natural-language sketch and feature intent',
+              'Parametric geometry the modeler can edit',
+              'Auto-constrain and design-rule checks',
+              'Sits alongside your CAD tool, not around it',
             ].map((item) => (
               <div key={item} className="flex gap-3 rounded-xl bg-white/70 border border-emerald-900/10 p-4">
                 <FiCheckCircle className="text-emerald-700 text-xl shrink-0 mt-0.5" />
@@ -336,10 +336,10 @@ export default function HomePage() {
             <FiTarget className="text-black text-3xl" />
           </div>
           <h2 className="text-4xl sm:text-5xl font-display font-extrabold tracking-normal">
-            Ready to build the next serious product?
+            Want early access to the AI CAD Copilot?
           </h2>
           <p className="mt-5 text-gray-400 max-w-2xl mx-auto">
-            Explore the product ecosystem, see open roles, or start a conversation about what you want to launch.
+            We’re shipping the sketch-to-parametric loop first. Get in touch to be part of the first cohort or to talk about partnering.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
             <Link to={ROUTES.CONTACT} className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-extrabold text-black hover:bg-emerald-100 transition-colors">

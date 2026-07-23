@@ -44,7 +44,7 @@ const applicationSchema = z.object({
 router.get('/models', (_req, res) => {
   res.json({
     models: [
-      { id: 'bluelearner-path-ranker-v1', type: 'recommendation', externalApi: false },
+      { id: 'bluecoder-path-ranker-v1', type: 'recommendation', externalApi: false },
       { id: 'career-fit-scorer-v1', type: 'classification', externalApi: false },
       { id: 'application-summarizer-v1', type: 'summarization', externalApi: false },
       { id: 'blog-planner-v1', type: 'generation', externalApi: false },

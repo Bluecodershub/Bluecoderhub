@@ -6,14 +6,14 @@ import { gsap, ScrollTrigger, useGSAPContext } from '../hooks/useScrollTrigger';
 import { FiTarget, FiEye, FiAward } from 'react-icons/fi';
 
 const timeline = [
-    { id: '1', title: 'The Genesis', desc: 'Bluecoderhub PVT LTD established as a center for technological innovation and strategic product development.' },
-    { id: '2', title: 'The Awakening', desc: 'Our first flagship product is about to launch, marking the beginning of our journey to transform digital experiences.' },
+    { id: '1', title: 'The Studio', desc: 'Bluecoderhub PVT LTD is set up in Chennai as a small product studio focused on engineering-native AI.' },
+    { id: '2', title: 'The First Bet', desc: 'We commit to the AI CAD Copilot as our first shipping product — an AI that meets mechanical engineers inside their modeling workflow.' },
 ];
 
 const values = [
-    { icon: <FiTarget />, title: 'Mission', desc: 'To empower businesses with cutting-edge technology that drives growth, efficiency, and innovation.' },
-    { icon: <FiEye />, title: 'Vision', desc: 'To be the most trusted technology partner for startups and enterprises worldwide.' },
-    { icon: <FiAward />, title: 'Values', desc: 'Excellence, integrity, continuous learning, collaboration, and user-centric thinking in everything we do.' },
+    { icon: <FiTarget />, title: 'Mission', desc: 'Build AI-native tools that respect the way engineers already work — precise, parametric, and shippable.' },
+    { icon: <FiEye />, title: 'Vision', desc: 'A copilot for every discipline that ships real artifacts, not plausible-looking demos.' },
+    { icon: <FiAward />, title: 'Values', desc: 'Small team, tight loops, one product bet at a time. Deterministic where it counts, generative where it helps.' },
 ];
 
 const quotes = [

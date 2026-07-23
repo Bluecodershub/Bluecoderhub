@@ -9,8 +9,8 @@ const footerLinks = {
         { label: 'Blog', path: '/blog' },
     ],
     Product: [
-        { label: 'Our Products', path: '/products' },
-        { label: 'Bluelearnerhub', external: 'https://bluelearnerhub.com' },
+        { label: 'AI CAD Copilot', path: '/products' },
+        { label: 'Contact', path: '/contact' },
     ],
 };
 import Logo from './Logo';
@@ -45,8 +45,7 @@ export default function Footer() {
                             </div>
                         </Link>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                            The strategic parent company powering a global ecosystem of innovation,
-                            including our flagship subsidiary, <a href="https://bluelearnerhub.com" target="_blank" rel="noopener noreferrer" className="text-white hover:underline underline-offset-4 decoration-white/20">Bluelearnerhub</a>.
+                            A product studio building AI-native tools for engineers. Our first product is the <Link to="/products" className="text-white hover:underline underline-offset-4 decoration-white/20">AI CAD Copilot</Link>.
                         </p>
                         <div className="flex gap-3">
                             {/* Social links removed */}

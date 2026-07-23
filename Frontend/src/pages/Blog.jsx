@@ -11,8 +11,8 @@ function formatDate(value) {
 
 const SITE_ORIGIN = 'https://bluecoderhub.com';
 const DEFAULT_OG_IMAGE = `${SITE_ORIGIN}/og-image.png`;
-const SITE_DEFAULT_TITLE = 'Bluecoderhub PVT LTD - Products, Platforms, and AI Systems';
-const SITE_DEFAULT_DESCRIPTION = 'Bluecoderhub PVT LTD builds product ecosystems across learning, finance, engineering, and AI-powered digital platforms.';
+const SITE_DEFAULT_TITLE = 'Bluecoderhub — AI CAD Copilot for engineering design';
+const SITE_DEFAULT_DESCRIPTION = 'A product studio building AI-native tools for engineers. Our first product is the AI CAD Copilot — natural-language intent, parametric geometry, and design-rule checks inside your modeler.';
 
 function setMeta(selector, attr, value) {
     let el = document.head.querySelector(selector);

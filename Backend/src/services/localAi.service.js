@@ -56,7 +56,7 @@ export function recommendLearningPath(profile = {}) {
     : selected;
 
   return {
-    model: 'bluelearner-path-ranker-v1',
+    model: 'bluecoder-path-ranker-v1',
     track: fallback[0]?.track || 'Software Engineering',
     confidence: Math.min(0.95, 0.55 + fallback.reduce((sum, item) => sum + item.score, 0) / 30),
     modules: fallback.map((item, index) => ({
@@ -147,8 +147,8 @@ export function answerSupportQuestion(input = {}) {
   const question = normalize(input.question);
   const responses = [
     { signals: ['career', 'job', 'hiring', 'apply'], answer: 'You can apply through the Careers page. The platform stores applications on the server for admin review.' },
-    { signals: ['bluelearner', 'learning', 'course'], answer: 'Bluelearnerhub focuses on structured learning paths, gamified progress, coding challenges, and certificates.' },
-    { signals: ['finance', 'financehub'], answer: 'FinanceHub is listed as an internal prototype with an early-access waitlist.' },
+    { signals: ['cad', 'copilot', 'sketch', 'parametric', 'design-rule', 'modeler'], answer: 'The AI CAD Copilot is our first product — it turns natural-language intent into parametric geometry, sketch suggestions, and design-rule checks. Join the waitlist on the Products page for early access.' },
+    { signals: ['product', 'roadmap'], answer: 'Bluecoderhub is a product studio. The AI CAD Copilot is our single active product bet — see the Products page for status and early access.' },
     { signals: ['contact', 'project', 'service'], answer: 'For project inquiries, use the contact flow or reach Bluecoderhub through the published company email.' }
   ];
   const match = responses.find((item) => item.signals.some((signal) => question.includes(signal)));

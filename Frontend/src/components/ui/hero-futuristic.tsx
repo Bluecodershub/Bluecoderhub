@@ -147,7 +147,7 @@ export const Html = () => {
           ))}
         </h1>
         <p className="hero-futuristic__subtitle">
-          AI-powered product engineering, learning platforms, and digital experiences for ambitious teams.
+          A product studio building the AI CAD Copilot — engineering-native AI for the tools you already model in.
         </p>
         <a className="hero-futuristic__action" href="#next-section">
           Explore
