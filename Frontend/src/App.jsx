@@ -58,13 +58,14 @@ function NotFound() {
     );
 }
 
-import { PremiumBackground } from './components/animations';
+import { PremiumBackground, ScrollProgress } from './components/animations';
 
 function AppRoutes() {
     const location = useLocation();
 
     return (
         <div className="relative min-h-screen">
+            <ScrollProgress />
             <PremiumBackground />
             <div className="noise-overlay" />
             <Navbar />

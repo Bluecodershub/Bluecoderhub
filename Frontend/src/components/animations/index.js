@@ -3,3 +3,7 @@ export { default as LiquidBlob } from './LiquidBlob.jsx';
 export { default as ParticleSystem } from './ParticleSystem.jsx';
 export { default as PremiumBackground } from './PremiumBackground.jsx';
 export { default as Magnetic } from './Magnetic.jsx';
+export { default as ScrollProgress } from './ScrollProgress.jsx';
+export { default as TiltCard } from './TiltCard.jsx';
+export { default as Marquee } from './Marquee.jsx';
+export { default as AnimatedHeading } from './AnimatedHeading.jsx';

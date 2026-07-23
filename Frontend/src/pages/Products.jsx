@@ -70,11 +70,11 @@ export default function Products() {
                         Our Products
                     </div>
                     <h1 className="text-5xl lg:text-6xl font-display font-bold text-white mb-6">
-                        Products That <span className="gradient-text">Transform</span>
+                        Products built to <span className="gradient-text">ship, not demo.</span>
                     </h1>
                     <p className="text-gray-400 text-lg leading-relaxed">
-                        We build products that solve real problems at scale — starting with an AI copilot
-                        for CAD that meets engineers inside the tools they already use.
+                        Bluecoderhub is a focused product studio. Our flagship product is an AI copilot
+                        for CAD, engineered to meet mechanical designers inside the modelers they already rely on.
                     </p>
                 </div>
             </section>

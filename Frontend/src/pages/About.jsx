@@ -6,22 +6,23 @@ import { gsap, ScrollTrigger, useGSAPContext } from '../hooks/useScrollTrigger';
 import { FiTarget, FiEye, FiAward } from 'react-icons/fi';
 
 const timeline = [
-    { id: '1', title: 'The Studio', desc: 'Bluecoderhub PVT LTD is set up in Chennai as a small product studio focused on engineering-native AI.' },
-    { id: '2', title: 'The First Bet', desc: 'We commit to the AI CAD Copilot as our first shipping product — an AI that meets mechanical engineers inside their modeling workflow.' },
+    { id: '1', title: 'The Studio', desc: 'Bluecoderhub PVT LTD is founded in Chennai as a focused product studio dedicated to engineering-native AI.' },
+    { id: '2', title: 'The First Product', desc: 'The AI CAD Copilot enters development — an assistant designed to meet mechanical engineers inside their modeling workflow.' },
+    { id: '3', title: 'Early Access', desc: 'We prepare the sketch-to-parametric loop for a private beta with a small cohort of design and engineering teams.' },
 ];
 
 const values = [
-    { icon: <FiTarget />, title: 'Mission', desc: 'Build AI-native tools that respect the way engineers already work — precise, parametric, and shippable.' },
-    { icon: <FiEye />, title: 'Vision', desc: 'A copilot for every discipline that ships real artifacts, not plausible-looking demos.' },
-    { icon: <FiAward />, title: 'Values', desc: 'Small team, tight loops, one product bet at a time. Deterministic where it counts, generative where it helps.' },
+    { icon: <FiTarget />, title: 'Mission', desc: 'Build AI-native tools that respect how engineers already work — precise, parametric, and production-ready.' },
+    { icon: <FiEye />, title: 'Vision', desc: 'A copilot for every technical discipline that produces real, shippable artifacts — not merely plausible demos.' },
+    { icon: <FiAward />, title: 'Principles', desc: 'A small team. Tight iteration loops. One product commitment. Deterministic where it counts, generative where it helps.' },
 ];
 
 const quotes = [
-    "Most people are average because they fear being obsessed. We chose obsession.",
-    "The world is built by people no smarter than you. We are the architects now.",
-    "Code is the magic of the 21st century. We are the sorcerers.",
-    "We don't build products. We build legacies that outlive their makers.",
-    "If you want to change the world, you have to be crazy enough to believe you can."
+    "Precision is not a feature. It is a prerequisite.",
+    "Great engineering tools disappear into the workflow they support.",
+    "We do not ship demos. We ship the surfaces engineers reach for.",
+    "Language models interpret intent. Solvers guarantee correctness. Both belong in the copilot.",
+    "One product done well is worth more than a roadmap of ideas."
 ];
 
 export default function About() {
@@ -107,7 +108,7 @@ export default function About() {
                 <LiquidBlob color="#ffffff" size={400} delay={3} className="bottom-0 right-0 opacity-5" />
                 <div className="relative z-10 max-w-4xl mx-auto flex flex-col justify-center">
                     <h1 className="text-5xl lg:text-6xl font-display font-bold text-white mb-8">
-                        Built by Builders, <br /><span className="gradient-text">for Builders</span>
+                        Built by engineers, <br /><span className="gradient-text">for engineers.</span>
                     </h1>
 
                     <div className="relative h-32 sm:h-24">
